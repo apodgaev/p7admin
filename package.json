@@ -1,0 +1,29 @@
+{
+  "name": "p7admin",
+  "version": "1.0.0",
+  "description": "project 7 admin dashboard",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apodgaev/p7admin.git"
+  },
+  "keywords": [
+    "project7",
+    "space",
+    "rpg"
+  ],
+  "author": "Aleksei \"AlexiuS\" Podgaev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/apodgaev/p7admin/issues"
+  },
+  "homepage": "https://github.com/apodgaev/p7admin#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.7.6"
+  }
+}
