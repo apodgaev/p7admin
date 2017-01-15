@@ -12,6 +12,10 @@ import { ConfigComponent } from './config/config.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
+import { ApiDictionaryService } from './services/api-dictionary.service';
+import { BackendService } from './services/backend.service';
+import { StorageService } from './services/storage.service';
+
 const appRoutes: Routes = [
   { path: 'config', component: ConfigComponent },
   {
@@ -39,7 +43,11 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [
+		StorageService,
+		ApiDictionaryService,
+		BackendService
+	],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

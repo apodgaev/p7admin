@@ -1,3 +1,46 @@
-<p>
-  config works!
-</p>
+<section>
+	<md-card class="config-section">
+		<md-card-header>
+	    <md-card-title>Database</md-card-title>
+		</md-card-header>
+		<md-card-content>
+			<!--mongodb://<dbuser>:<dbpassword>@ds163667.mlab.com:63667/heroku_k5ks5rws-->
+			<form class="example-form">
+				<p>
+					<md-input-container class="full-width">
+						<input md-input disabled placeholder="MongoDB URI:" value="mongodb://<dbuser>:<dbpassword>@<domain>:<port>/<account>">
+					</md-input-container>
+				</p>
+				<p>
+					<md-input-container class="full-width">
+						<input md-input placeholder="dbUser">
+					</md-input-container>
+				</p>
+				<p>
+					<md-input-container class="full-width">
+						<input md-input placeholder="dbPassword">
+					</md-input-container>
+				</p>
+				<p>
+					<md-input-container class="full-width">
+						<input md-input placeholder="Domain">
+					</md-input-container>
+				</p>
+				<p>
+					<md-input-container class="full-width">
+						<input md-input placeholder="Port">
+					</md-input-container>
+				</p>
+				<p>
+					<md-input-container class="full-width">
+						<input md-input placeholder="Account">
+					</md-input-container>
+				</p>
+			</form>
+		</md-card-content>
+		<md-card-actions>
+	    <button md-button><md-icon>check</md-icon> Save</button>
+	    <button md-button color="accent"><md-icon>close</md-icon> Discard</button>
+	  </md-card-actions>
+	</md-card>
+</section>

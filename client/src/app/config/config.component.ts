@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-config',
@@ -6,8 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./config.component.scss']
 })
 export class ConfigComponent implements OnInit {
+	private config = {
+		db : {
+			dbuser : "",
+			dbpassword : "",
+			domain : "",
+			port : "",
+			account : ""
+		},
+		dbUri : ""
+	};
 
-  constructor() { }
+  constructor(storage: StorageService) { }
 
   ngOnInit() {
   }
