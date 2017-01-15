@@ -1,5 +1,9 @@
-<md-toolbar>{{title}}</md-toolbar>
-<h1>
-  {{title}}
-</h1>
+<md-toolbar>
+	<h1>{{title}}</h1>
+	<div class="stretch"></div>
+	<nav>
+	    <a routerLink="/" routerLinkActive="active">Dashboard</a>
+	    <a routerLink="/config" routerLinkActive="active">Config</a>
+	  </nav>
+</md-toolbar>
 <router-outlet></router-outlet>
