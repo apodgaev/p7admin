@@ -18,14 +18,14 @@
       "prefix": "app",
       "mobile": false,
       "styles": [
-        "styles.css"
+        "styles.scss"
       ],
       "scripts": [
       ],
       "environments": {
-        "source": {"source":"environments/environment.ts","dev":"environments/environment.ts","prod":"environments/environment.prod.ts"},
-        "dev": {"source":"environments/environment.ts","dev":"environments/environment.ts","prod":"environments/environment.prod.ts"},
-        "prod": {"source":"environments/environment.ts","dev":"environments/environment.ts","prod":"environments/environment.prod.ts"}
+        "source": "environments/environment.ts",
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
       }
     }
   ],
