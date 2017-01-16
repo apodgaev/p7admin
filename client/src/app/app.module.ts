@@ -13,6 +13,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 import { ApiDictionaryService } from './services/api-dictionary.service';
+import { ConfigService } from './config/config.service';
 import { BackendService } from './services/backend.service';
 import { StorageService } from './services/storage.service';
 
@@ -46,7 +47,8 @@ const appRoutes: Routes = [
   providers: [
 		StorageService,
 		ApiDictionaryService,
-		BackendService
+		BackendService,
+		ConfigService
 	],
   bootstrap: [AppComponent]
 })
