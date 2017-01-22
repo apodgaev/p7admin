@@ -24,7 +24,7 @@ const appRoutes: Routes = [
     component: DashboardComponent
   },
   { path: '',
-    redirectTo: '/dashboard',
+    redirectTo: '/config',
     pathMatch: 'full'
   },
   { path: '**', component: PageNotFoundComponent }

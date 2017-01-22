@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageService } from '../services/storage.service';
 import { ConfigService } from './config.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-config',
@@ -10,17 +11,17 @@ import { ConfigService } from './config.service';
 export class ConfigComponent implements OnInit {
 	private config = {
 		db : {
-			dbuser : "",
-			dbpassword : "",
-			domain : "",
-			port : "",
-			account : ""
-		},
-		dbUri : ""
+			dbuser : undefined,
+			dbpassword : undefined,
+			domain : undefined,
+			port : undefined,
+			account : undefined
+		}
 	};
 
   constructor(
 		private storage: StorageService,
+		private router : Router,
 		private configService: ConfigService
 	) { }
 
@@ -30,15 +31,37 @@ export class ConfigComponent implements OnInit {
 		}
   }
 
+	private buildUri() : string {
+		if(this.config.db) {
+			let _ = this.config.db;
+			return "mongodb://"+_.dbuser+":"+_.dbpassword+"@"+_.domain+":"+_.port+"/"+_.account;
+		}
+		return undefined;
+	}
+
 	public save() {
-		console.log("saving:",this.config);
-		this.configService.setConfig(this.config.dbUri)
-		.subscribe(
-			res  => {
-				console.log(res);
-				this.storage.save("config", this.config);
-			},
-			error =>  console.log(error)
-		);
+		let dbUri = this.buildUri();
+		if(dbUri) {
+			console.log("saving ", dbUri);
+			this.configService.setConfig({dbUri:dbUri})
+			.subscribe(
+				res  => {
+					console.log(res);
+					if(res == "OK") {
+						this.storage.save("config", this.config);
+						this.router.navigate(['/dashboard']);
+					}
+				},
+				error =>  {
+					if(error.name && error.type == "Auth") {
+						if(this.storage.hasValue("config")) {
+							this.config = this.storage.load("config");
+						}
+					} else {
+						console.error(error);
+					}
+				}
+			);
+		}
 	}
 }

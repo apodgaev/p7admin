@@ -4,8 +4,8 @@
 	    <md-card-title>Database</md-card-title>
 		</md-card-header>
 		<md-card-content>
-			<!--mongodb://<dbuser>:<dbpassword>@ds163667.mlab.com:63667/heroku_k5ks5rws-->
-			<form class="example-form">
+			<!--mongodb://user1:HerokuUser1_@ds163667.mlab.com:63667/heroku_k5ks5rws-->
+			<form class="config-form">
 				<p>
 					<md-input-container class="full-width">
 						<input md-input disabled placeholder="MongoDB URI:" value="mongodb://<dbuser>:<dbpassword>@<domain>:<port>/<account>">
@@ -13,27 +13,27 @@
 				</p>
 				<p>
 					<md-input-container class="full-width">
-						<input md-input placeholder="dbUser">
+						<input md-input name="dbuser" placeholder="dbUser" [(ngModel)]="config.db.dbuser">
 					</md-input-container>
 				</p>
 				<p>
 					<md-input-container class="full-width">
-						<input md-input placeholder="dbPassword">
+						<input md-input name="dbpassword" placeholder="dbPassword" [(ngModel)]="config.db.dbpassword">
 					</md-input-container>
 				</p>
 				<p>
 					<md-input-container class="full-width">
-						<input md-input placeholder="Domain">
+						<input md-input name="domain" placeholder="Domain" [(ngModel)]="config.db.domain">
 					</md-input-container>
 				</p>
 				<p>
 					<md-input-container class="full-width">
-						<input md-input placeholder="Port">
+						<input md-input name="port" placeholder="Port" [(ngModel)]="config.db.port">
 					</md-input-container>
 				</p>
 				<p>
 					<md-input-container class="full-width">
-						<input md-input placeholder="Account">
+						<input md-input name="account" placeholder="Account" [(ngModel)]="config.db.account">
 					</md-input-container>
 				</p>
 			</form>

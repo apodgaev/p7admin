@@ -5,8 +5,8 @@ export class StorageService {
 	private ls;
 
   constructor() {
-		//let s = window.localStorage;
-		let s = undefined;
+		let s = window.localStorage;
+		//let s = undefined;
 		if(!s) {
 			s = (() => {
 				let _s = {};
