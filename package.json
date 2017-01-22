@@ -4,6 +4,7 @@
   "description": "project 7 admin dashboard",
   "main": "index.js",
   "scripts": {
+		"start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,6 +25,7 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "express-session": "^1.14.2",
     "mongoose": "^4.7.6"
   }
 }
