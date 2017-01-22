@@ -1,5 +1,6 @@
 'use strict';
-var express = require('express')();
+var express = require('express');
+var app = express();
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
@@ -7,13 +8,12 @@ var session = require('express-session');
 
 var _port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 5000;
 var _addr = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-express.set('port', _port);
-express.set('addr', _addr);
+app.set('port', _port);
+app.set('addr', _addr);
 
-express.use('/app', express.static(__dirname + '/client/dist'));
-express.use(bodyParser.urlencoded({ extended: false }));
-express.use(bodyParser.json());
-express.use(session({
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(session({
   name:'project7',
   secret: 'project7adminsecret',
   resave: true,
@@ -21,14 +21,15 @@ express.use(session({
 }));
 
 
-express.use('/', function(req, res, next) {
+app.use('/', function(req, res, next) {
 	res.setHeader('charset', 'utf-8');
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	next();
 });
+app.use('/', express.static(__dirname + '/client/dist'));
 
-express.use(require('./server'));
+app.use(require('./server'));
 
-express.listen(express.get('port'), express.get('addr'), function () {
-  console.log(`Express app listening on ${express.get('addr')}:${express.get('port')}!`);
+app.listen(app.get('port'), app.get('addr'), function () {
+  console.log(`Express app listening on ${app.get('addr')}:${app.get('port')}!`);
 });

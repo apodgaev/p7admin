@@ -4,6 +4,9 @@
   "description": "project 7 admin dashboard",
   "main": "index.js",
   "scripts": {
+		"build:client": "cd client && ng build --env=second --aot",
+		"prestart_dev": "npm run build:client",
+		"start_dev": "start http://localhost:5000 && node index.js",
 		"start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
