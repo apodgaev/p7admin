@@ -32,6 +32,11 @@ module.exports.connect = function connect(userId, dbURI, success, error) {
 	connections[userId] = _c;
 }
 
+module.exports.get = function get(userId) {
+	return connections[userId];
+}
+
+
 // If the Node process ends, close the Mongoose connection
 process.on('SIGINT', () => {
 	for (let userId in connections) {

@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var db = require('./db');
 
-//router.use('/comments', require('./comments'))
+router.use('/stars', require('./stars'));
 //router.use('/users', require('./users'))
 
 // entry point - setting connection string for the database
