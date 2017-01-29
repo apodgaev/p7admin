@@ -1,14 +1,27 @@
+@import '../styles';
 .app-toolbar {
-	margin-bottom: 1rem;
+	@include fixed-flex-item;
 	h1 {
 		font-size: 1.5rem;
 	}
 	.stretch {
 		flex: 1 1 auto;
 	}
-	nav {
+}
+.app-container {
+	@include flex-item;
+	.side-nav {
+		font-size: 1.2rem;
+		width: 12rem;
+		md-icon {
+			margin-right: 0.5rem;
+		}
 		a {
 			text-decoration: none;
+			color: $sidenav-link-color;
 		}
 	}
+}
+.main {
+	padding: 0.5rem;
 }

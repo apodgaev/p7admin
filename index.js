@@ -20,8 +20,9 @@ app.use('/', function(req, res, next) {
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(session({
-  name:'project7',
+  name:'p7',
   secret: 'project7adminsecret',
+	cookie: { maxAge: 600000 },
   resave: true,
   saveUninitialized: true
 }));

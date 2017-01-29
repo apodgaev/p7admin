@@ -51,7 +51,7 @@ export class BackendService {
 					result = Observable.throw(new AuthError("Authorization failed!"));
 				} else {
 					console.debug("error:", error);
-					let message = error.status + " " + error.statusText || 'Server error';
+					let message = error.statusText || 'Server error';
 					this.openPopup(message);
 			    result = Observable.throw(new Error(message));
 				}
@@ -70,6 +70,19 @@ export class BackendService {
 		}
 		let _body = (typeof body == "string") ? body : JSON.stringify(body);
 		let reqObservable : Observable<Response> = this.http.post(url, _body, _options);
+		return this.responseWrapper(reqObservable);
+	}
+
+	public get(url: string, options? : RequestOptions) : Observable<any> {
+		let _options : RequestOptions;
+		if(options) {
+			options.headers.append('Content-Type', 'application/json');
+			_options = options;
+		} else {
+			let headers = new Headers({ 'Content-Type': 'application/json' });
+			_options = new RequestOptions({ headers: headers });
+		}
+		let reqObservable : Observable<Response> = this.http.get(url, _options);
 		return this.responseWrapper(reqObservable);
 	}
 }

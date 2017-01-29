@@ -1,9 +1,29 @@
 <md-toolbar class="app-toolbar">
+	<button md-icon-button (click)="sidenav.toggle()">
+    <md-icon>menu</md-icon>
+  </button>
 	<h1>{{title}}</h1>
-	<div class="stretch"></div>
-	<nav>
-	    <a routerLink="/" routerLinkActive="active">Dashboard</a>
-	    <a routerLink="/config" routerLinkActive="active">Config</a>
-	  </nav>
 </md-toolbar>
-<router-outlet></router-outlet>
+<md-sidenav-container class="app-container">
+  <md-sidenav #sidenav mode="over" class="side-nav">
+		<md-list>
+		  <h3 md-subheader>Entities</h3>
+			<md-list-item>
+		    <md-icon>star border</md-icon>
+		    <a routerLink="/stars" routerLinkActive="active">Stars</a>
+		  </md-list-item>
+			<md-divider></md-divider>
+			<md-list-item>
+		    <md-icon>widgets</md-icon>
+				<a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+		  </md-list-item>
+			<md-list-item>
+		    <md-icon>settings</md-icon>
+				<a routerLink="/config" routerLinkActive="active">Config</a>
+		  </md-list-item>
+		</md-list>
+  </md-sidenav>
+	<div class="main">
+		<router-outlet></router-outlet>
+	</div>
+</md-sidenav-container>

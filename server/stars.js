@@ -12,8 +12,10 @@ var ConnectionError = require('./helpers/connection-error');
  *  POST: creates a new star
  */
 router.get('/', function(req, res) {
-	let conn = db.get(req.session.id);
+	console.log("stars get request with id", req.session.userId, req.session.id);
+	let conn = db.get(req.session.userId);
 	if(conn) {
+		console.log("connection found - trying to get data...");
 		Star(conn).find(function(err, stars) {
 			handleResult(res, err, stars)
 		});
@@ -21,6 +23,7 @@ router.get('/', function(req, res) {
 		handleResult(res, new ConnectionError());
 	}
 });
+
 router.post('/', function(req, res) {
 	let conn = db.get(req.session.id);
 	if(conn) {
@@ -34,3 +37,4 @@ router.post('/', function(req, res) {
 		handleResult(res, new ConnectionError());
 	}
 });
+module.exports = router;

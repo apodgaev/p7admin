@@ -6,5 +6,6 @@ console.log("apiURL init:", srv);
 
 export const apiUrls = {
 	wrongUrl: srv + "/somethingbad",
-	setConfig : srv + "/config"
+	setConfig : srv + "/config",
+	stars : srv + "/stars"
 };
