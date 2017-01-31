@@ -4,7 +4,8 @@ var dberror = require('./dberror');
 
 module.exports = function Star(db) {
 	var StarSchema = new mongoose.Schema({
-		name      : { type: String, unique: true, required: true }
+		name      	: { type: String, unique: true, required: true },
+		description : { type: String }
 	});
 	StarSchema.post('save', dberror);
 	StarSchema.post('update', dberror);

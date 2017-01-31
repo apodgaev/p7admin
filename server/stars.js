@@ -4,7 +4,7 @@ var router = express.Router();
 var db = require('./db');
 var Star = require('./models/star');
 var handleResult = require('./helpers/handle-result');
-var ConnectionError = require('./helpers/connection-error');
+var ConnectionError = require('./helpers/connection-error').connectionError;
 
 /*
  * /stars route
