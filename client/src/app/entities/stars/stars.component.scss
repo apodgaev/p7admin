@@ -1,0 +1,4 @@
+@import '../../../styles';
+.fab-button {
+	@include position(fixed, null 0.5rem 0.5rem null);
+}

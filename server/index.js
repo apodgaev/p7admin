@@ -5,15 +5,6 @@ var db = require('./db');
 var errors = require('./helpers/connection-error');
 var resultHandler = require('./helpers/handle-result');
 
-router.use('/', function(req, res, next) {
-	if(!req.session.userId) {
-		var err = new errors.authError();
-		resultHandler(res, err);
-	} else {
-		next();
-	}
-});
-
 router.use('/stars', require('./stars'));
 //router.use('/users', require('./users'))
 

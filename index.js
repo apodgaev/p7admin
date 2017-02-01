@@ -12,7 +12,7 @@ app.set('addr', _addr);
 app.use('/', function(req, res, next) {
 	res.setHeader('charset', 'utf-8');
 	res.setHeader('Access-Control-Allow-Origin', '*');
-	res.setHeader('Access-Control-Allow-Headers', "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+	res.setHeader('Access-Control-Allow-Headers', "Content-Type");
 	res.setHeader('Access-Control-Allow-Methods', "GET,POST,PUT,DELETE");
 	next();
 });

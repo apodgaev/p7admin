@@ -4,7 +4,18 @@ var router = express.Router();
 var db = require('./db');
 var Star = require('./models/star');
 var handleResult = require('./helpers/handle-result');
-var ConnectionError = require('./helpers/connection-error').connectionError;
+var errors = require('./helpers/connection-error');
+
+router.use('/', function(req, res, next) {
+	console.log("\nauth check:", req.session.id, req.session.userId);
+	if(!req.session.userId) {
+		var err = new errors.authError();
+		//handleResult(res, err);
+		next();
+	} else {
+		next();
+	}
+});
 
 /*
  * /stars route
@@ -12,7 +23,7 @@ var ConnectionError = require('./helpers/connection-error').connectionError;
  *  POST: creates a new star
  */
 router.get('/', function(req, res) {
-	console.log("stars get request with id", req.session.userId, req.session.id);
+	console.log("stars get request with id", req.session.id, req.session.userId);
 	let conn = db.get(req.session.userId);
 	if(conn) {
 		console.log("connection found - trying to get data...");
@@ -20,7 +31,7 @@ router.get('/', function(req, res) {
 			handleResult(res, err, stars)
 		});
 	} else {
-		handleResult(res, new ConnectionError());
+		handleResult(res, new errors.connectionError());
 	}
 });
 
