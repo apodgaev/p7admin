@@ -1,0 +1,31 @@
+<section class="register-section">
+	<h2 md-dialog-title>Sign up</h2>
+	<md-dialog-content>
+		<md-input-container>
+			<md-placeholder>
+				<md-icon class="input-icon">person</md-icon> Name
+			</md-placeholder>
+			<input md-input [(ngModel)]="cred.name">
+		</md-input-container>
+		<md-input-container>
+			<md-placeholder>
+				<md-icon class="input-icon">mail_outline</md-icon> Email
+			</md-placeholder>
+			<input md-input [(ngModel)]="cred.email">
+		</md-input-container>
+		<md-input-container>
+			<md-placeholder>
+				<md-icon class="input-icon">vpn_key</md-icon> Password
+			</md-placeholder>
+			<input md-input [(ngModel)]="cred.password">
+		</md-input-container>
+	</md-dialog-content>
+	<md-dialog-actions>
+		<button md-button color="primary" (click)="doRegister()">
+			<md-icon class="button-icon">done</md-icon> Sign up
+		</button>
+		<button md-button md-dialog-close>
+			<md-icon class="button-icon">cancel</md-icon> Cancel
+		</button>
+	</md-dialog-actions>
+</section>

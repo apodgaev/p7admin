@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './login/auth.service';
 
 @Component({
@@ -6,7 +6,15 @@ import { AuthService } from './login/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'project 7';
-	constructor (auth : AuthService) {}
+
+	constructor (private auth : AuthService) {}
+
+	ngOnInit() {
+		this.auth.refresh();
+		if (this.auth.isAuthorized()) {
+			// initialize
+		}
+  }
 }

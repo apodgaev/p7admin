@@ -8,8 +8,7 @@ var errors = require('../helpers/connection-error');
 
 router.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
-    res.status(401);
-    res.json({"message" : err.name + ": " + err.message});
+		handleResult(res, new errors.authError(err.name + ": " + err.message));
   }
 });
 
@@ -19,29 +18,29 @@ router.use(function (err, req, res, next) {
  *  POST: creates a new star
  */
 router.get('/', function(req, res) {
-	console.log("stars get request with id", req.session.id, req.session.userId);
-	let conn = db.connection;
-	if(conn) {
-		console.log("connection found - trying to get data...");
-		Star(conn).find(function(err, stars) {
+	console.log("stars get request with id", req.payload._id);
+	if (!req.payload._id) {
+		handleResult(res, new errors.authError());
+  } else {
+    // Otherwise continue
+		Star.find(function(err, stars) {
 			handleResult(res, err, stars)
 		});
-	} else {
-		handleResult(res, new errors.connectionError());
-	}
+  }
 });
 
 router.post('/', function(req, res) {
-	let conn = db.get(req.session.id);
-	if(conn) {
+	console.log("stars post request with id", req.payload._id);
+	if (!req.payload._id) {
+		handleResult(res, new errors.authError());
+  } else {
+    // Otherwise continue
 		var starData = req.body;
-		var StarModel = Star(conn);
-		var star = new StarModel(starData);
+		var star = new Star(starData);
 		star.save(function(err, star) {
 			handleResult(res, err, star);
 		});
-	} else {
-		handleResult(res, new ConnectionError());
-	}
+
+  }
 });
 module.exports = router;

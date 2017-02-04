@@ -62,14 +62,19 @@ export class BackendService {
 			});
 	}
 
+	private token = "";
+	public setAuthToken(token) {
+		this.token = token;
+	}
+
 	public post(url : string, body? : any, options? : RequestOptions) : Observable<any> {
-		let _options : RequestOptions;
-		if(options) {
-			options.headers.append('Content-Type', 'application/json');
-			_options = options;
-		} else {
-			let headers = new Headers({ 'Content-Type': 'application/json' });
-			_options = new RequestOptions({ headers: headers });
+		let _options : RequestOptions = options;
+		if (!_options) {
+			_options = new RequestOptions({ headers: new Headers() });
+		}
+		_options.headers.append('Content-Type', 'application/json');
+		if (this.token) {
+			_options.headers.append('Authorization', 'Bearer ' + this.token);
 		}
 		let _body = (typeof body == "string") ? body : JSON.stringify(body);
 		let reqObservable : Observable<Response> = this.http.post(url, _body, _options);
@@ -77,13 +82,13 @@ export class BackendService {
 	}
 
 	public get(url: string, options? : RequestOptions) : Observable<any> {
-		let _options : RequestOptions;
-		if(options) {
-			options.headers.append('Content-Type', 'application/json');
-			_options = options;
-		} else {
-			let headers = new Headers({ 'Content-Type': 'application/json' });
-			_options = new RequestOptions({ headers: headers });
+		let _options : RequestOptions = options;
+		if (!_options) {
+			_options = new RequestOptions({ headers: new Headers() });
+		}
+		_options.headers.append('Content-Type', 'application/json');
+		if (this.token) {
+			_options.headers.append('Authorization', 'Bearer ' + this.token);
 		}
 		let reqObservable : Observable<Response> = this.http.get(url, _options);
 		return this.responseWrapper(reqObservable);

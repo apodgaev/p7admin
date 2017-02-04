@@ -17,6 +17,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { StarsComponent } from './entities/stars/stars.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './login/register/register.component';
 
 import { ApiDictionaryService } from './services/api-dictionary.service';
 import { ConfigService } from './config/config.service';
@@ -50,8 +51,12 @@ const appRoutes: Routes = [
     DashboardComponent,
     PageNotFoundComponent,
     StarsComponent,
-    LoginComponent
+    LoginComponent,
+		RegisterComponent
   ],
+	entryComponents: [
+		RegisterComponent
+	],
   imports: [
 		RouterModule.forRoot(appRoutes),
 		MaterialModule.forRoot(),

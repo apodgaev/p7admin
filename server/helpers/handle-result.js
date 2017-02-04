@@ -11,6 +11,7 @@ module.exports = function handleResult(response, error, data) {
 		result = new Response((!!error.error) ? error.error : error.status, null, (!!error.message) ? error.message : error);
 	} else {
 		// response without errors
+		response.status(200);
 		result = new Response(0, data, "");
 	}
 	response.json(result);

@@ -7,7 +7,7 @@ module.exports.connectionError = function connectionError(err) {
 		this.error = err;
 	}
 };
-module.exports.authError = function authError() {
+module.exports.authError = function authError(msg) {
 	this.status = 401;
-	this.message = "Authorisation required!";
+	this.message = msg || "Authorisation required!";
 };
