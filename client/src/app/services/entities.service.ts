@@ -10,4 +10,8 @@ export class EntitiesService {
 	public getStars() {
 		return this.backend.get(apiUrls.stars);
 	}
+
+	public createStar(star) {
+		return this.backend.post(apiUrls.stars, star);
+	}
 }

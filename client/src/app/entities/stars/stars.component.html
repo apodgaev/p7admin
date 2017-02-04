@@ -8,6 +8,23 @@
 		  </button>
 		</md-card-actions>
 	</md-card>
+	<md-card *ngIf="editNew">
+		<md-card-title>
+			<md-input-container class="full-width">
+				<input md-input name="name" placeholder="Name" [(ngModel)]="newItem.name">
+			</md-input-container>
+		</md-card-title>
+		<md-card-subtitle>
+			<md-input-container class="full-width">
+				<textarea md-input name="description" [(ngModel)]="newItem.description"></textarea>
+			</md-input-container>
+		</md-card-subtitle>
+		<md-card-actions>
+			<button md-button (click)="saveNew(newItem)">
+		    <md-icon>save</md-icon>
+		  </button>
+		</md-card-actions>
+	</md-card>
 	<button class="fab-button" md-fab (click)="startEdit()">
 		<md-icon>add</md-icon>
 	</button>
