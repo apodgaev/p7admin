@@ -15,14 +15,17 @@ import { ConfigComponent } from './config/config.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { StarsComponent } from './entities/stars/stars.component';
+import { LoginComponent } from './login/login.component';
 
 import { ApiDictionaryService } from './services/api-dictionary.service';
 import { ConfigService } from './config/config.service';
 import { BackendService } from './services/backend.service';
 import { StorageService } from './services/storage.service';
 import { EntitiesService } from './services/entities.service';
+import { AuthService } from './login/auth.service';
 
 const appRoutes: Routes = [
+	{ path: 'login', component: LoginComponent },
   { path: 'config', component: ConfigComponent },
   {
     path: 'dashboard',
@@ -33,7 +36,7 @@ const appRoutes: Routes = [
     component: StarsComponent
   },
   { path: '',
-    redirectTo: '/config',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
   { path: '**', component: PageNotFoundComponent }
@@ -45,7 +48,8 @@ const appRoutes: Routes = [
     ConfigComponent,
     DashboardComponent,
     PageNotFoundComponent,
-    StarsComponent
+    StarsComponent,
+    LoginComponent
   ],
   imports: [
 		RouterModule.forRoot(appRoutes),
@@ -60,6 +64,7 @@ const appRoutes: Routes = [
 		BackendService,
 		ConfigService,
 		EntitiesService,
+		AuthService,
 		{ provide: BrowserXhr, useClass: CORSBrowserXHR }
 	],
   bootstrap: [AppComponent]
