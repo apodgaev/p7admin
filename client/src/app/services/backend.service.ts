@@ -37,18 +37,21 @@ export class BackendService {
       .map((res : ResponseWrapper<any>) => {
 				console.log("Request result:", res);
 				if(res.error == -1) {
-					let message = "Auth error: " + res.message;
-					this.openPopup(message);
 					//console.error("Auth error:", res.message);
-					this._router.navigate(['/']);
-					return Observable.throw(new AuthError(message));
 				} else {
 					return res.data || {};
 				}
 			}).catch((error: Response) => {
+				console.log("Request error:", error);
 				let result;
-				if(error.status == 401) {
-					result = Observable.throw(new AuthError("Authorization failed!"));
+				if (error.status == 401) {
+					let message = error.json().message;
+					message = (message)? "Auth error: " + message : "Authorization failed!";
+					this.openPopup(message);
+					result = Observable.throw(new AuthError(message));
+					if (!this._router.isActive('/', true)) {
+						this._router.navigateByUrl('/');
+					}
 				} else {
 					console.debug("error:", error);
 					let message = error.statusText || 'Server error';

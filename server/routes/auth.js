@@ -6,7 +6,7 @@ var User = require('../models/user');
 
 router.post('/register', function (req, res) {
 	var user = new User();
-
+	console.log("register route:", req.body);
   user.name = req.body.name;
   user.email = req.body.email;
 
@@ -24,6 +24,7 @@ router.post('/register', function (req, res) {
 
 
 router.post('/login', function (req, res) {
+	console.log("login route:", req.body);
   passport.authenticate('local', function (err, user, info) {
     var token;
 

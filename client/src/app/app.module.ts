@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { MaterialModule } from '@angular/material';
 import 'hammerjs';
+import './rxjs-operators';
 
 import {BrowserXhr} from "@angular/http";
 import { CORSBrowserXHR } from './http.hack';
@@ -59,13 +60,13 @@ const appRoutes: Routes = [
     HttpModule
   ],
   providers: [
+		//{ provide: BrowserXhr, useClass: CORSBrowserXHR },
 		StorageService,
 		ApiDictionaryService,
 		BackendService,
 		ConfigService,
 		EntitiesService,
-		AuthService,
-		{ provide: BrowserXhr, useClass: CORSBrowserXHR }
+		AuthService
 	],
   bootstrap: [AppComponent]
 })

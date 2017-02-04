@@ -13,3 +13,9 @@
 	@include flex(1 1 100%);
 	@include align-self(stretch);
 }
+$medium : 40rem;
+@mixin media($size : $medium) {
+	@media only screen and (min-width: #{$size}) {
+		@content;
+	}
+}

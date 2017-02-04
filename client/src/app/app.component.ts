@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import './rxjs-operators';
+import { AuthService } from './login/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +8,5 @@ import './rxjs-operators';
 })
 export class AppComponent {
   title = 'project 7';
+	constructor (auth : AuthService) {}
 }
