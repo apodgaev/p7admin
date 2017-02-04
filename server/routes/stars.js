@@ -1,20 +1,16 @@
 'use strict';
 var express = require('express');
 var router = express.Router();
-var db = require('./db');
-var Star = require('./models/star');
-var handleResult = require('./helpers/handle-result');
-var errors = require('./helpers/connection-error');
+var db = require('../db');
+var Star = require('../models/star');
+var handleResult = require('../helpers/handle-result');
+var errors = require('../helpers/connection-error');
 
-router.use('/', function(req, res, next) {
-	console.log("\nauth check:", req.session.id, req.session.userId);
-	if(!req.session.userId) {
-		var err = new errors.authError();
-		//handleResult(res, err);
-		next();
-	} else {
-		next();
-	}
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401);
+    res.json({"message" : err.name + ": " + err.message});
+  }
 });
 
 /*
@@ -24,7 +20,7 @@ router.use('/', function(req, res, next) {
  */
 router.get('/', function(req, res) {
 	console.log("stars get request with id", req.session.id, req.session.userId);
-	let conn = db.get(req.session.userId);
+	let conn = db.connection;
 	if(conn) {
 		console.log("connection found - trying to get data...");
 		Star(conn).find(function(err, stars) {

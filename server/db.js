@@ -1,51 +1,37 @@
 'use strict';
 var mongoose = require('mongoose');
+var config = require('./config');
 
-// connections pool
-var connections = {};
+mongoose.connect(config.mongo_uri);
+let _c = mongoose.connection;
 
-module.exports.connect = function connect(userId, dbURI, success, error) {
+// CONNECTION EVENTS
+// When successfully connected
+_c.on('connected', () => {
+  console.log('Mongoose connection open');
+});
 
-	if(connections[userId]) connections[userId].close();
+// If the connection throws an error
+_c.on('error', (error) => {
+  console.log('Mongoose connection error: ' + error);
+	process.exit(1);
+});
 
-	var _c = mongoose.createConnection(dbURI);
-
-	// CONNECTION EVENTS
-	// When successfully connected
-	_c.on('connected', function () {
-	  console.log('Mongoose connection open to ' + dbURI + ' for userId ' + userId);
-		if(success) success();
-	});
-
-	// If the connection throws an error
-	_c.on('error', function (err) {
-	  console.log('Mongoose connection error: ' + err);
-		if(error) error(err);
-	});
-
-	// When the connection is disconnected
-	_c.on('disconnected', function () {
-	  console.log('Mongoose connection disconnected');
-		if(error) error();
-	});
-
-	connections[userId] = _c;
-}
-
-module.exports.get = function get(userId) {
-	return connections[userId];
-}
-
+// When the connection is disconnected
+_c.on('disconnected', () => {
+  console.log('Mongoose connection disconnected');
+	process.exit(1);
+});
 
 // If the Node process ends, close the Mongoose connection
 process.on('SIGINT', () => {
-	for (let userId in connections) {
-		let conn = connections[userId];
-		if(conn) {
-			conn.close(function () {
-				console.log('Mongoose connection disconnected through app termination');
-				delete connections[userId];
-			});
-		}
-	}
+	_c.close(() => {
+		console.log('Mongoose connection disconnected through app termination');
+		process.exit(0);
+	});
 });
+
+module.exports = {
+	db: mongoose,
+	connection: _c
+};
