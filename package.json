@@ -4,8 +4,10 @@
   "description": "project 7 admin dashboard",
   "main": "index.js",
   "scripts": {
-    "pre_dev": "cd client && start node ng serve",
-    "dev": "start http://localhost:5000 && start nodemon index.js",
+		"w-client": "cd client && start ng serve",
+		"w-server": "dbstart.bat && start nodemon index.js",
+    "w-dev": "npm run w-server && npm run w-client",
+		"postw-dev": "start http://localhost:4200",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
