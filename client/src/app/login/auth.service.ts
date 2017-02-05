@@ -38,6 +38,13 @@ export class AuthService {
 			});
 	}
 
+	public logout() {
+		this.ls.remove("token");
+		this.sessionToken = "";
+		this.backend.setAuthToken("");
+		this.user = undefined;
+	}
+
 	public refresh() {
 		if (!this.sessionToken) {
 			let token = this.ls.load("token");
@@ -55,6 +62,17 @@ export class AuthService {
 	}
 
 	public isAuthorized() : boolean {
-		return !!this.sessionToken;
+		var token = this.getSessionToken();
+	  var payload;
+	  if (token) {
+	    payload = token.split('.')[1];
+	    payload = window.atob(payload);
+	    payload = JSON.parse(payload);
+			this.user = <IUser>payload;
+			console.log("isAuthorized", this.user);
+	    return payload.exp > Date.now() / 1000;
+	  } else {
+	    return false;
+	  }
 	}
 }

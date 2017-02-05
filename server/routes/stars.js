@@ -18,7 +18,7 @@ router.use(function (err, req, res, next) {
  *  POST: creates a new star
  */
 router.get('/', function(req, res) {
-	console.log("stars get request with id", req.payload._id);
+	console.log("stars get request with id", req.payload);
 	if (!req.payload._id) {
 		handleResult(res, new errors.authError());
   } else {
