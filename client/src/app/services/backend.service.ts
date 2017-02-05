@@ -39,7 +39,7 @@ export class BackendService {
 				if(res.error == -1) {
 					//console.error("Auth error:", res.message);
 				} else {
-					return res.data || {};
+					return res.data || res;
 				}
 			}).catch((error: Response) => {
 				console.log("Request error:", error);

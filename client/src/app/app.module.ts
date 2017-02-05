@@ -2,14 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 import { MaterialModule } from '@angular/material';
 import 'hammerjs';
 import './rxjs-operators';
-
-import {BrowserXhr} from "@angular/http";
-import { CORSBrowserXHR } from './http.hack';
 
 import { AppComponent } from './app.component';
 import { ConfigComponent } from './config/config.component';
@@ -26,23 +23,8 @@ import { StorageService } from './services/storage.service';
 import { EntitiesService } from './services/entities.service';
 import { AuthService } from './login/auth.service';
 
-const appRoutes: Routes = [
-	{ path: 'login', component: LoginComponent },
-  { path: 'config', component: ConfigComponent },
-  {
-    path: 'dashboard',
-    component: DashboardComponent
-  },
-	{
-    path: 'stars',
-    component: StarsComponent
-  },
-  { path: '',
-    redirectTo: '/login',
-    pathMatch: 'full'
-  },
-  { path: '**', component: PageNotFoundComponent }
-];
+import { AppRoutes } from './routes/routes';
+import { AuthGuard } from './routes/auth.guard';
 
 @NgModule({
   declarations: [
@@ -58,21 +40,26 @@ const appRoutes: Routes = [
 		RegisterComponent
 	],
   imports: [
-		RouterModule.forRoot(appRoutes),
+		RouterModule.forRoot(AppRoutes),
 		MaterialModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpModule
   ],
   providers: [
-		//{ provide: BrowserXhr, useClass: CORSBrowserXHR },
 		StorageService,
 		ApiDictionaryService,
 		BackendService,
 		ConfigService,
 		EntitiesService,
-		AuthService
+		AuthService,
+		AuthGuard
 	],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+	// Diagnostic only: inspect router configuration
+  constructor(router: Router) {
+    //console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+  }
+}
