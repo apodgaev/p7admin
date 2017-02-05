@@ -20,8 +20,8 @@ app.use('/', function(req, res, next) {
 	}
 	next();
 });
-console.log("static path", __dirname + '../client/dist');
-app.use('/', express.static(__dirname + '../client/dist'));
+console.log("static path", __dirname + '/../client/dist');
+app.use('/', express.static(__dirname + '/../client/dist'));
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
