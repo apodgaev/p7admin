@@ -4,6 +4,7 @@ var router = express.Router();
 var passport = require('passport');
 var User = require('../models/user');
 var handleResult = require('../helpers/handle-result');
+var errors = require('../helpers/connection-error');
 
 router.post('/register', function (req, res) {
 	var user = new User();
@@ -12,41 +13,44 @@ router.post('/register', function (req, res) {
   user.email = req.body.email;
 	user.admin = false;
   user.setPassword(req.body.password);
-
   user.save(function (err) {
     var token;
     token = user.generateJwt();
 		handleResult(res,null,{
-			"user" : user,
       "token" : token
-    })
+    });
   });
 });
-
 
 router.post('/login', function (req, res) {
 	console.log("login route:", req.body);
   passport.authenticate('local', function (err, user, info) {
     var token;
-
     // If Passport throws/catches an error
     if (err) {
-      res.status(404).json(err);
+			handleResult(res, new errors.notFoundError(err.message));
       return;
     }
-
     // If a user is found
     if(user){
       token = user.generateJwt();
-      res.status(200);
-      res.json({
-        "token" : token
-      });
+			handleResult(res,null,{
+	      "token" : token
+	    });
     } else {
       // If user is not found
-      res.status(401).json(info);
+			handleResult(res, new errors.authError(info));
     }
   })(req, res);
+});
+
+router.post('/logout', function(req, res){
+	console.log("logout action");
+  req.logOut();
+	if (req.session) req.session.destroy();
+	handleResult(res,null,{
+		"OK" : true
+	});
 });
 
 module.exports = router;

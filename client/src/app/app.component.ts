@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './login/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,12 +10,36 @@ import { AuthService } from './login/auth.service';
 export class AppComponent implements OnInit {
   title = 'project 7';
 
-	constructor (private auth : AuthService) {}
+	isAuth : boolean;
+
+	constructor (
+		private router : Router,
+		private auth : AuthService
+	)	{
+		this.isAuth = false;
+	}
+
+	refreshState(state) {
+		this.isAuth = state;
+		this.title += "!";
+		console.log("refreshState", this.isAuth);
+	}
 
 	ngOnInit() {
-		this.auth.refresh();
 		if (this.auth.isAuthorized()) {
 			// initialize
+			this.refreshState(true);
 		}
+		this.auth.subscribe(this.refreshState);
   }
+
+	logout(event) {
+		event.preventDefault();
+		this.auth.logout()
+			.subscribe(res => {
+				console.log("logout success", res);
+				this.refreshState(false);
+				this.router.navigate(['/']);
+			});
+	}
 }

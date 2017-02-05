@@ -19,10 +19,44 @@ export class AuthService {
 		private ls: StorageService
 	) { }
 
+	private parseToken(token) {
+		let payload;
+		payload = token.split('.')[1];
+		payload = window.atob(payload);
+		payload = JSON.parse(payload);
+		this.user = <IUser>payload;
+		this.sessionToken = token;
+		this.ls.save("token", token);
+		this.backend.setAuthToken(token);
+		return payload;
+	}
+
+	public logout() {
+		if(this.sessionToken) {
+			return this.backend.post(apiUrls.auth.logout)
+				.do(res => {
+					console.log("auth service logout:", res);
+					if(res.OK) {
+						this.ls.remove("token");
+						this.sessionToken = "";
+						this.backend.setAuthToken("");
+						this.user = undefined;
+						this.fireEvent();
+					}
+					return res;
+			});
+		}
+	}
+
 	public login(user) {
 		return this.backend.post(apiUrls.auth.login, user)
 			.do(res => {
-				console.log("auth service:", res);
+				console.log("auth service login:", res);
+				if (res && res.token) {
+					this.parseToken(res.token);
+					this.fireEvent();
+				}
+				return res;
 			});
 	}
 
@@ -30,47 +64,44 @@ export class AuthService {
 		return this.backend.post(apiUrls.auth.register, user)
 			.do(res => {
 				console.log("auth service:", res);
-				this.ls.save("token", res.token);
-				this.sessionToken = res.token;
-				this.backend.setAuthToken(res.token);
-				this.user = res.user;
+				this.parseToken(res.token);
+				this.fireEvent();
 				return res;
 			});
 	}
 
-	public logout() {
-		this.ls.remove("token");
-		this.sessionToken = "";
-		this.backend.setAuthToken("");
-		this.user = undefined;
-	}
-
-	public refresh() {
-		if (!this.sessionToken) {
-			let token = this.ls.load("token");
-			this.sessionToken = token;
-			this.backend.setAuthToken(token);
+	public restoreToken() {
+		let token = this.ls.load("token");
+		if (token) {
+			this.parseToken(token);
 		}
 	}
 
 	public getSessionToken() {
 		if (!this.sessionToken) {
-			let token = this.ls.load("token");
-			this.sessionToken = token;
+			this.restoreToken();
 		}
 		return this.sessionToken;
 	}
 
+	private appSubscriber;
+	public subscribe(cb) {
+		this.appSubscriber = cb;
+	}
+	private fireEvent() {
+		if (this.appSubscriber) {
+			let state = this.isAuthorized();
+			this.appSubscriber(state);
+		}
+	}
+
 	public isAuthorized() : boolean {
 		var token = this.getSessionToken();
-	  var payload;
 	  if (token) {
-	    payload = token.split('.')[1];
-	    payload = window.atob(payload);
-	    payload = JSON.parse(payload);
-			this.user = <IUser>payload;
-			console.log("isAuthorized", this.user);
-	    return payload.exp > Date.now() / 1000;
+			var payload = this.parseToken(token);
+			let isAuth = payload.exp > Date.now() / 1000;
+			console.log("isAuthorized", isAuth);
+	    return isAuth;
 	  } else {
 	    return false;
 	  }

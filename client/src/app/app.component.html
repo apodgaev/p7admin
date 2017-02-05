@@ -5,22 +5,31 @@
 	<h1>{{title}}</h1>
 </md-toolbar>
 <md-sidenav-container class="app-container">
-  <md-sidenav #sidenav mode="over" class="side-nav">
-		<md-list>
-		  <h3 md-subheader>Entities</h3>
+  <md-sidenav #sidenav mode="over" class="side-nav" (click)="sidenav.close()">
+		<p>{{isAuth}}</p>
+		<md-list *ngIf="!isAuth">
+			<h3 md-subheader>User</h3>
 			<md-list-item>
-		    <md-icon>star border</md-icon>
-		    <a routerLink="/stars" routerLinkActive="active">Stars</a>
+		    <md-icon>person</md-icon>
+		    <a routerLink="/login" routerLinkActive="active">Login</a>
 		  </md-list-item>
-			<md-divider></md-divider>
+		</md-list>
+		<md-list *ngIf="isAuth">
+			<h3 md-subheader>User</h3>
+			<md-list-item>
+		    <md-icon>person</md-icon>
+		    <a href="#" (click)="logout($event);">Logout</a>
+		  </md-list-item>
 			<md-list-item>
 		    <md-icon>widgets</md-icon>
 				<a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
 		  </md-list-item>
+		  <h3 md-subheader>Entities</h3>
 			<md-list-item>
-		    <md-icon>settings</md-icon>
-				<a routerLink="/config" routerLinkActive="active">Config</a>
+		    <md-icon>star_border</md-icon>
+		    <a routerLink="/stars" routerLinkActive="active">Stars</a>
 		  </md-list-item>
+			<md-divider></md-divider>
 		</md-list>
   </md-sidenav>
 	<div class="main">

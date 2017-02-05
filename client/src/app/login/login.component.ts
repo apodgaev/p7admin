@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
 		if (this.auth.isAuthorized()) {
 			// redirect to dashboard
+			this.router.navigate(['/dashboard']);
 		}
   }
 

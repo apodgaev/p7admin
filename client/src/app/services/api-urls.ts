@@ -7,7 +7,8 @@ console.log("apiURL init:", srv);
 export const apiUrls = {
 	auth: {
 		login: srv + "/auth/login",
-		register: srv + "/auth/register"
+		register: srv + "/auth/register",
+		logout: srv + "/auth/logout"
 	},
 	wrongUrl: srv + "/somethingbad",
 	setConfig : srv + "/config",

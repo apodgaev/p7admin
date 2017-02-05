@@ -10,7 +10,7 @@
 		<md-placeholder>
 			<md-icon class="input-icon">vpn_key</md-icon> Password
 		</md-placeholder>
-		<input md-input [(ngModel)]="cred.password">
+		<input type="password" md-input [(ngModel)]="cred.password">
 	</md-input-container>
 	<hr/>
 	<button md-button color="primary" (click)="doLogin()">
