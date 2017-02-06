@@ -46,8 +46,7 @@ router.post('/login', function (req, res) {
 
 router.post('/logout', function(req, res){
 	console.log("logout action");
-  req.logOut();
-	if (req.session) req.session.destroy();
+	req.logOut();
 	handleResult(res,null,{
 		"OK" : true
 	});

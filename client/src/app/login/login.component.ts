@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
 		if (this.auth.isAuthorized()) {
 			// redirect to dashboard
-			this.router.navigate(['/dashboard']);
+			//this.router.navigate(['/dashboard']);
 		}
   }
 
@@ -34,10 +34,9 @@ export class LoginComponent implements OnInit {
 			console.log(this.cred);
 			this.auth.login(this.cred)
 				.subscribe(res  => {
-						console.log("success", res);
 						this.router.navigate(['/dashboard']);
 					}, err => {
-						console.log("error", err);
+						console.log("doLogin error", err);
 						//TODO: set validation state to controls
 					});
 		}
@@ -46,14 +45,11 @@ export class LoginComponent implements OnInit {
 	register() {
 		let dialogRef = this.dialog.open(RegisterComponent);
     dialogRef.afterClosed().subscribe(result => {
-      console.log("result", result);
 			if (result) {
 				this.auth.register(result)
 					.subscribe(res => {
-						console.log("success", res);
 						this.router.navigate(['/dashboard']);
 					}, err => {
-						console.log("error", err);
 						this.register();
 					});
 			}

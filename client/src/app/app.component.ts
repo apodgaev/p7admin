@@ -21,8 +21,6 @@ export class AppComponent implements OnInit {
 
 	refreshState(state) {
 		this.isAuth = state;
-		this.title += "!";
-		console.log("refreshState", this.isAuth);
 	}
 
 	ngOnInit() {
@@ -30,7 +28,9 @@ export class AppComponent implements OnInit {
 			// initialize
 			this.refreshState(true);
 		}
-		this.auth.subscribe(this.refreshState);
+		this.auth.subscribe(state => {
+			this.refreshState(state);
+		});
   }
 
 	logout(event) {
