@@ -31,16 +31,20 @@ export class AuthService {
 		return payload;
 	}
 
+	public clearToken() {
+		this.ls.remove("token");
+		this.sessionToken = "";
+		this.backend.setAuthToken("");
+		this.user = undefined;
+		this.fireEvent();
+	}
+
 	public logout() {
 		if(this.sessionToken) {
 			return this.backend.post(apiUrls.auth.logout)
 				.do(res => {
 					if(res.OK) {
-						this.ls.remove("token");
-						this.sessionToken = "";
-						this.backend.setAuthToken("");
-						this.user = undefined;
-						this.fireEvent();
+						this.clearToken();
 					}
 					return res;
 			});

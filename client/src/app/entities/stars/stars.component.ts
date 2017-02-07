@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../login/auth.service';
 import { EntitiesService } from '../../services/entities.service';
 
 @Component({
@@ -11,7 +13,10 @@ export class StarsComponent implements OnInit {
 	private newItem;
 	private editNew : boolean;
 
-  constructor(private entities : EntitiesService) {
+  constructor(
+		private entities : EntitiesService,
+		private auth : AuthService,
+		private router : Router) {
 		this.newItem = {
 			name: "",
 			description: ""
@@ -24,6 +29,11 @@ export class StarsComponent implements OnInit {
 			.subscribe(res => {
 				console.log("getStars result:", res);
 				this.stars = res;
+			}, err => {
+				if (err.type == "Auth") {
+					this.auth.clearToken();
+					this.router.navigateByUrl('/');
+				}
 			});
   }
 

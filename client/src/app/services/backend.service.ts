@@ -44,7 +44,7 @@ export class BackendService {
 			}).catch((error: Response) => {
 				console.log("Request error:", error);
 				let result;
-				if (error.status == 401) {
+				if (error.status == 401 || error.status == 0) {
 					let message = error.json().message;
 					message = (message)? "Auth error: " + message : "Authorization failed!";
 					this.openPopup(message);

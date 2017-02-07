@@ -8,7 +8,6 @@ var errors = require('../helpers/connection-error');
 
 router.post('/register', function (req, res) {
 	var user = new User();
-	console.log("register route:", req.body);
   user.name = req.body.name;
   user.email = req.body.email;
 	user.admin = false;
@@ -23,7 +22,6 @@ router.post('/register', function (req, res) {
 });
 
 router.post('/login', function (req, res) {
-	console.log("login route:", req.body);
   passport.authenticate('local', function (err, user, info) {
     var token;
     // If Passport throws/catches an error
@@ -45,7 +43,6 @@ router.post('/login', function (req, res) {
 });
 
 router.post('/logout', function(req, res){
-	console.log("logout action");
 	req.logOut();
 	handleResult(res,null,{
 		"OK" : true

@@ -18,29 +18,64 @@ router.use(function (err, req, res, next) {
  *  POST: creates a new star
  */
 router.get('/', function(req, res) {
-	console.log("stars get request with id", req.payload);
-	if (!req.payload._id) {
-		handleResult(res, new errors.authError());
-  } else {
-    // Otherwise continue
-		Star.find(function(err, stars) {
-			handleResult(res, err, stars)
-		});
-  }
+	console.log("stars get request");
+  // Otherwise continue
+	Star.find(function(err, stars) {
+		handleResult(res, err, stars)
+	});
 });
 
 router.post('/', function(req, res) {
-	console.log("stars post request with id", req.payload._id);
-	if (!req.payload._id) {
-		handleResult(res, new errors.authError());
-  } else {
-    // Otherwise continue
-		var starData = req.body;
-		var star = new Star(starData);
-		star.save(function(err, star) {
-			handleResult(res, err, star);
-		});
-
-  }
+	console.log("stars post request");
+  // Otherwise continue
+	var starData = req.body;
+	var star = new Star(starData);
+	star.save(function(err, star) {
+		handleResult(res, err, star);
+	});
 });
+
+/*
+ * /stars/:id route
+ *  GET: get details about a star
+ *  POST: update information about a star
+ */
+router.param('id', function(req, res, next, id) {
+	return Star.findById(id, function (err, star) {
+		if (err) {
+      handleResult(res, err, star);
+    } else if (!star) {
+			handleResult(res, {status:404, message:`Star ${id} not found.`}, null);
+    } else {
+			req.star = star;
+      next();
+    }
+	});
+});
+
+
+
+router.get('/:id', function(req, res) {
+	console.log("get star request", req.params.id);
+	handleResult(res, null, req.star);
+});
+
+router.put('/:id', function(req, res) {
+	console.log("update star request", req.params.id);
+  // Otherwise continue
+	var starData = req.body;
+	var star = req.star;
+	// TODO: update properties
+	star.save(function(err, star) {
+		handleResult(res, err, star);
+	});
+});
+
+router.delete('/:id', function(req, res) {
+	let star = req.star;
+	star.remove(function(err) {
+		handleResult(res, err, {});
+	});
+});
+
 module.exports = router;
