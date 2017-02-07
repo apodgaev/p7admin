@@ -65,6 +65,11 @@ router.put('/:id', function(req, res) {
   // Otherwise continue
 	var starData = req.body;
 	var star = req.star;
+	for (let p in starData) {
+		if(starData.hasOwnProperty(p)) {
+			star[p] = starData[p];
+		}
+	}
 	// TODO: update properties
 	star.save(function(err, star) {
 		handleResult(res, err, star);
