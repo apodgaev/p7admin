@@ -25,6 +25,7 @@ import { AuthService } from './login/auth.service';
 
 import { AppRoutes } from './routes/routes';
 import { AuthGuard } from './routes/auth.guard';
+import { StarInfoComponent } from './entities/stars/star-info/star-info.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { AuthGuard } from './routes/auth.guard';
     PageNotFoundComponent,
     StarsComponent,
     LoginComponent,
-		RegisterComponent
+		RegisterComponent,
+		StarInfoComponent
   ],
 	entryComponents: [
 		RegisterComponent

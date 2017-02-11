@@ -2,3 +2,14 @@
 .fab-button {
 	@include position(fixed, null 0.5rem 0.5rem null);
 }
+.stars{
+	@include flex-container();
+	.left-pane {
+		@include fixed-flex-item();
+		width: 20rem;
+	}
+	.right-pane {
+		@include flex-item;
+		margin-left: 2rem;
+	}
+}

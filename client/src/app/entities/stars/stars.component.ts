@@ -12,6 +12,7 @@ export class StarsComponent implements OnInit {
 	private stars : any[];
 	private newItem;
 	private editNew : boolean;
+	private selectedStar;
 
   constructor(
 		private entities : EntitiesService,
@@ -36,6 +37,15 @@ export class StarsComponent implements OnInit {
 				}
 			});
   }
+
+  select(star) {
+		if(this.selectedStar && this.selectedStar._id == star._id) {
+			this.selectedStar = undefined;
+		} else {
+			this.selectedStar = star;
+		}
+	}
+
 
 	startEdit(item) {
 		if(item) {

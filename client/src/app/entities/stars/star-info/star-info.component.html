@@ -1,0 +1,23 @@
+<md-card class="star-detail">
+	<md-card-title>{{star.name}}</md-card-title>
+	<md-card-subtitle>{{star.description}}</md-card-subtitle>
+	<md-card-content *ngIf="isEdit">
+		<md-input-container class="full-width">
+			<input md-input name="name" placeholder="Name" [(ngModel)]="editModel.name">
+		</md-input-container>
+		<md-input-container class="full-width">
+			<textarea md-input name="description" placeholder="Description" [(ngModel)]="editModel.description"></textarea>
+		</md-input-container>
+	</md-card-content>
+	<md-card-actions>
+		<button md-icon-button (click)="edit()" *ngIf="!isEdit">
+			<md-icon>edit</md-icon>
+		</button>
+		<button md-icon-button (click)="save()" *ngIf="isEdit">
+			<md-icon>save</md-icon>
+		</button>
+		<button md-icon-button (click)="cancel()" *ngIf="isEdit">
+			<md-icon>cancel</md-icon>
+		</button>
+	</md-card-actions>
+</md-card>
