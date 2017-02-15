@@ -29,8 +29,10 @@ router.post('/', function(req, res) {
 	console.log("stars post request");
   // Otherwise continue
 	var starData = req.body;
+	console.log("star", starData);
 	var star = new Star(starData);
 	star.save(function(err, star) {
+		console.log("result", err, star);
 		handleResult(res, err, star);
 	});
 });
@@ -38,7 +40,8 @@ router.post('/', function(req, res) {
 /*
  * /stars/:id route
  *  GET: get details about a star
- *  POST: update information about a star
+ *  PUT: update information about a star
+ *  DELETE: delete star
  */
 router.param('id', function(req, res, next, id) {
 	return Star.findById(id, function (err, star) {
@@ -52,8 +55,6 @@ router.param('id', function(req, res, next, id) {
     }
 	});
 });
-
-
 
 router.get('/:id', function(req, res) {
 	console.log("get star request", req.params.id);

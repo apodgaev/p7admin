@@ -21,7 +21,14 @@ var EntitiesService = (function () {
         });
     };
     EntitiesService.prototype.createStar = function (star) {
+        delete star._id;
         return this.backend.post(apiUrls.stars, star);
+    };
+    EntitiesService.prototype.saveStar = function (star) {
+        return this.backend.put(apiUrls.star.replace(':id', star._id), star);
+    };
+    EntitiesService.prototype.deleteStar = function (star) {
+        return this.backend.delete(apiUrls.star.replace(':id', star._id), star);
     };
     return EntitiesService;
 }());

@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../login/auth.service';
 import { EntitiesService } from '../../services/entities.service';
 
+import { Entity } from '../models/entity';
+
 @Component({
   selector: 'app-stars',
   templateUrl: './stars.component.html',
@@ -10,22 +12,15 @@ import { EntitiesService } from '../../services/entities.service';
 })
 export class StarsComponent implements OnInit {
 	private stars : any[];
-	private newItem;
-	private editNew : boolean;
 	private selectedStar;
 
   constructor(
 		private entities : EntitiesService,
 		private auth : AuthService,
 		private router : Router) {
-		this.newItem = {
-			name: "",
-			description: ""
-		};
-		this.editNew = false;
 	}
 
-  ngOnInit() {
+	loadStars() {
 		this.entities.getStars()
 			.subscribe(res => {
 				console.log("getStars result:", res);
@@ -36,6 +31,10 @@ export class StarsComponent implements OnInit {
 					this.router.navigateByUrl('/');
 				}
 			});
+	}
+
+  ngOnInit() {
+		this.loadStars();
   }
 
   select(star) {
@@ -46,19 +45,40 @@ export class StarsComponent implements OnInit {
 		}
 	}
 
+	create() {
+		this.selectedStar = new Entity();
+	}
 
-	startEdit(item) {
-		if(item) {
-
+	save(star) {
+		console.log("save", star);
+		if(star._id) {
+			this.entities.saveStar(star)
+			.subscribe(res => {
+				console.log("save star result:", res);
+				this.selectedStar = new Entity(res);
+				this.loadStars();
+			});
 		} else {
-			this.editNew = true;
+			this.entities.createStar(star)
+			.subscribe(res => {
+				console.log("create star result:", res);
+				this.selectedStar = new Entity(res);
+				this.loadStars();
+			});
 		}
 	}
 
-	saveNew(item) {
-		this.entities.createStar(item)
+	cancel() {
+		this.selectedStar = undefined;
+	}
+
+	delete(star) {
+		console.log("delete star", star);
+		this.entities.deleteStar(star)
 		.subscribe(res => {
-			console.log("create star result:", res);
-		})
+			console.log("delete star result:", res);
+			this.selectedStar = undefined;
+			this.loadStars();
+		});
 	}
 }

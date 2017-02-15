@@ -23,10 +23,52 @@ var DBEntity = (function () {
 export { DBEntity };
 var Entity = (function (_super) {
     __extends(Entity, _super);
-    function Entity() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Entity(entity) {
+        var _this = this;
+        if (entity) {
+            _this = _super.call(this, entity) || this;
+        }
+        else {
+            _this = _super.call(this, {
+                _id: 0,
+                name: "New entity name",
+                description: "New entity description"
+            }) || this;
+        }
+        return _this;
     }
+    Object.defineProperty(Entity.prototype, "properties", {
+        get: function () {
+            var self = this;
+            var props = [];
+            for (var p in self) {
+                if (self.hasOwnProperty(p) && p != "_id" && p != "name" && p != "description") {
+                    props.push({ name: p, value: self[p] });
+                }
+            }
+            return props;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Entity.prototype.isEqual = function (source) {
+        if (this._id != source._id)
+            return false;
+        if (this.name != source.name)
+            return false;
+        if (this.description != source.description)
+            return false;
+        return true;
+    };
     return Entity;
 }(DBEntity));
 export { Entity };
+var Star = (function (_super) {
+    __extends(Star, _super);
+    function Star(input) {
+        return _super.call(this, input) || this;
+    }
+    return Star;
+}(Entity));
+export { Star };
 //# sourceMappingURL=../../../../../src/app/entities/models/entity.js.map

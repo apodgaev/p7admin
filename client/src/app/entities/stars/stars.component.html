@@ -3,30 +3,19 @@
 		<md-nav-list>
 	   <a md-list-item
 		 *ngFor="let star of stars"
+		 [class.active]="star._id == selectedStar?._id"
 		 	(click)="select(star)"> {{ star.name }} </a>
 		</md-nav-list>
 	</div>
 	<div class="right-pane">
 		<star-info *ngIf="selectedStar"
+			(on-delete)="delete($event)"
+			(on-cancel)="cancel()"
+			(on-save)="save($event)"
 			[star]="selectedStar">
 		</star-info>
 	</div>
-	<!--
-	<md-card *ngIf="editNew">
-		<md-card-title>
-
-		</md-card-title>
-		<md-card-subtitle>
-			
-		</md-card-subtitle>
-		<md-card-actions>
-			<button md-button (click)="saveNew(newItem)">
-		    <md-icon>save</md-icon>
-		  </button>
-		</md-card-actions>
-	</md-card>
--->
-	<button class="fab-button" md-fab (click)="startEdit()">
+	<button class="fab-button" md-fab (click)="create()">
 		<md-icon>add</md-icon>
 	</button>
 </div>

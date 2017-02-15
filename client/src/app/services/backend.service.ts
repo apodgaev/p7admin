@@ -17,6 +17,8 @@ export class AuthError extends Error {
   }
 }
 
+enum RequestType {GET,POST,PUT,DELETE}
+
 @Injectable()
 export class BackendService {
 
@@ -67,7 +69,8 @@ export class BackendService {
 		this.token = token;
 	}
 
-	public post(url : string, body? : any, options? : RequestOptions) : Observable<any> {
+	private request(method, url, options, body?) {
+		//console.log("request", url, options);
 		let _options : RequestOptions = options;
 		if (!_options) {
 			_options = new RequestOptions({ headers: new Headers() });
@@ -76,21 +79,43 @@ export class BackendService {
 		if (this.token) {
 			_options.headers.append('Authorization', 'Bearer ' + this.token);
 		}
-		let _body = (typeof body == "string") ? body : JSON.stringify(body);
-		let reqObservable : Observable<Response> = this.http.post(url, _body, _options);
+		let _body;
+		if(body) {
+			_body = (typeof body == "string") ? body : JSON.stringify(body);
+		}
+		let reqObservable : Observable<Response>;
+		switch(method) {
+			case RequestType.PUT:
+				reqObservable = this.http.put(url, _body, _options);
+				break;
+			case RequestType.POST:
+				reqObservable = this.http.post(url, _body, _options);
+				break;
+			case RequestType.DELETE:
+				reqObservable = this.http.delete(url, _options);
+				break;
+			case RequestType.GET:
+			default:
+				reqObservable = this.http.get(url, _options);
+				break;
+		}
 		return this.responseWrapper(reqObservable);
 	}
 
-	public get(url: string, options? : RequestOptions) : Observable<any> {
-		let _options : RequestOptions = options;
-		if (!_options) {
-			_options = new RequestOptions({ headers: new Headers() });
-		}
-		_options.headers.append('Content-Type', 'application/json');
-		if (this.token) {
-			_options.headers.append('Authorization', 'Bearer ' + this.token);
-		}
-		let reqObservable : Observable<Response> = this.http.get(url, _options);
-		return this.responseWrapper(reqObservable);
+	public post(url : string, body? : any, options? : RequestOptions) : Observable<any> {
+		return this.request(RequestType.POST, url, options, body);
 	}
+
+	public get(url: string, options? : RequestOptions) : Observable<any> {
+		return this.request(RequestType.GET, url, options);
+	}
+
+	public put(url: string, body? : any, options? : RequestOptions) : Observable<any> {
+		return this.request(RequestType.PUT, url, options, body);
+	}
+
+	public delete(url: string, body : any, options? : RequestOptions) : Observable<any> {
+		return this.request(RequestType.DELETE, url, options, body);
+	}
+
 }

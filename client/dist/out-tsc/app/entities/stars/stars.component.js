@@ -11,18 +11,14 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../login/auth.service';
 import { EntitiesService } from '../../services/entities.service';
+import { Entity } from '../models/entity';
 var StarsComponent = (function () {
     function StarsComponent(entities, auth, router) {
         this.entities = entities;
         this.auth = auth;
         this.router = router;
-        this.newItem = {
-            name: "",
-            description: ""
-        };
-        this.editNew = false;
     }
-    StarsComponent.prototype.ngOnInit = function () {
+    StarsComponent.prototype.loadStars = function () {
         var _this = this;
         this.entities.getStars()
             .subscribe(function (res) {
@@ -35,6 +31,9 @@ var StarsComponent = (function () {
             }
         });
     };
+    StarsComponent.prototype.ngOnInit = function () {
+        this.loadStars();
+    };
     StarsComponent.prototype.select = function (star) {
         if (this.selectedStar && this.selectedStar._id == star._id) {
             this.selectedStar = undefined;
@@ -43,17 +42,40 @@ var StarsComponent = (function () {
             this.selectedStar = star;
         }
     };
-    StarsComponent.prototype.startEdit = function (item) {
-        if (item) {
+    StarsComponent.prototype.create = function () {
+        this.selectedStar = new Entity();
+    };
+    StarsComponent.prototype.save = function (star) {
+        var _this = this;
+        console.log("save", star);
+        if (star._id) {
+            this.entities.saveStar(star)
+                .subscribe(function (res) {
+                console.log("save star result:", res);
+                _this.selectedStar = new Entity(res);
+                _this.loadStars();
+            });
         }
         else {
-            this.editNew = true;
+            this.entities.createStar(star)
+                .subscribe(function (res) {
+                console.log("create star result:", res);
+                _this.selectedStar = new Entity(res);
+                _this.loadStars();
+            });
         }
     };
-    StarsComponent.prototype.saveNew = function (item) {
-        this.entities.createStar(item)
+    StarsComponent.prototype.cancel = function () {
+        this.selectedStar = undefined;
+    };
+    StarsComponent.prototype.delete = function (star) {
+        var _this = this;
+        console.log("delete star", star);
+        this.entities.deleteStar(star)
             .subscribe(function (res) {
-            console.log("create star result:", res);
+            console.log("delete star result:", res);
+            _this.selectedStar = undefined;
+            _this.loadStars();
         });
     };
     return StarsComponent;
