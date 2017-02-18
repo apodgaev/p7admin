@@ -3,14 +3,19 @@
 	@include position(fixed, null 0.5rem 0.5rem null);
 }
 .stars{
-	@include flex-container();
+	@include flex-container(column);
+	@include media() {
+		@include flex-container(row);
+	}
 	.left-pane {
 		@include fixed-flex-item();
-		width: 20rem;
+		width: 19rem;
 	}
 	.right-pane {
 		@include flex-item;
-		margin-left: 2rem;
+		@include media() {
+			margin-left: 2rem;
+		}
 	}
 }
 .active {
