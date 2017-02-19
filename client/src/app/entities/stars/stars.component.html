@@ -4,7 +4,7 @@
 	   <a md-list-item
 		 *ngFor="let star of stars"
 		 [class.active]="star._id == selectedStar?._id"
-		 	(click)="select(star)"> {{ star.name }} </a>
+		 (click)="select(star)"> {{ star.name }} </a>
 		</md-nav-list>
 	</div>
 	<div class="right-pane">

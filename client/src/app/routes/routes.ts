@@ -5,6 +5,7 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { StarsComponent } from '../entities/stars/stars.component';
 import { LoginComponent } from '../login/login.component';
+import { PlanetTypeComponent } from '../lists/planet-type/planet-type.component';
 
 import { AuthGuard } from './auth.guard';
 
@@ -15,6 +16,11 @@ export const AppRoutes: Routes = [
     path: 'dashboard',
 		canActivate: [AuthGuard],
     component: DashboardComponent
+  },
+	{
+    path: 'lists/planet-type',
+		canActivate: [AuthGuard],
+    component: PlanetTypeComponent
   },
 	{
     path: 'stars',

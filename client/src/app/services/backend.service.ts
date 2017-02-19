@@ -114,7 +114,7 @@ export class BackendService {
 		return this.request(RequestType.PUT, url, options, body);
 	}
 
-	public delete(url: string, body : any, options? : RequestOptions) : Observable<any> {
+	public delete(url: string, body?: any, options? : RequestOptions) : Observable<any> {
 		return this.request(RequestType.DELETE, url, options, body);
 	}
 

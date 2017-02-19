@@ -1,0 +1,31 @@
+<md-nav-list>
+ <a md-list-item
+ *ngFor="let item of planetTypes"
+ (click)="select(item)"> {{ item.name }} </a>
+ <a md-list-item
+ (click)="create()"> Add item </a>
+</md-nav-list>
+<md-card *ngIf="selectedItem">
+	<md-card-content>
+		<md-input-container class="full-width">
+			<input md-input name="name" placeholder="Name" [(ngModel)]="selectedItem.name">
+		</md-input-container>
+		<md-input-container class="full-width">
+			<textarea md-input name="description" placeholder="Description" [(ngModel)]="selectedItem.description"></textarea>
+		</md-input-container>
+		<md-input-container class="full-width">
+			<input md-input name="imageUrl" placeholder="URL of the image" [(ngModel)]="selectedItem.imageUrl">
+		</md-input-container>
+	</md-card-content>
+	<md-card-actions align="end">
+		<button md-icon-button (click)="save()">
+			<md-icon>save</md-icon>
+		</button>
+		<button md-icon-button (click)="delete()">
+			<md-icon>delete</md-icon>
+		</button>
+		<button md-icon-button (click)="cancel()">
+			<md-icon>cancel</md-icon>
+		</button>
+	</md-card-actions>
+</md-card>

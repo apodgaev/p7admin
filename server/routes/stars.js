@@ -19,7 +19,6 @@ router.use(function (err, req, res, next) {
  */
 router.get('/', function(req, res) {
 	console.log("stars get request");
-  // Otherwise continue
 	Star.find(function(err, stars) {
 		handleResult(res, err, stars)
 	});
@@ -27,7 +26,6 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res) {
 	console.log("stars post request");
-  // Otherwise continue
 	var starData = req.body;
 	console.log("star", starData);
 	var star = new Star(starData);

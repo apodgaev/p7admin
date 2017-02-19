@@ -11,74 +11,68 @@ import { Entity } from '../models/entity';
   styleUrls: ['./stars.component.scss']
 })
 export class StarsComponent implements OnInit {
-	private stars : any[];
-	private selectedStar;
+  private stars: any[];
+  private selectedStar;
 
   constructor(
-		private entities : EntitiesService,
-		private auth : AuthService,
-		private router : Router) {
-	}
+    private entities: EntitiesService,
+    private auth: AuthService,
+    private router: Router) {
+  }
 
-	loadStars() {
-		this.entities.getStars()
-			.subscribe(res => {
-				console.log("getStars result:", res);
-				this.stars = res;
-			}, err => {
-				if (err.type == "Auth") {
-					this.auth.clearToken();
-					this.router.navigateByUrl('/');
-				}
-			});
-	}
+  loadStars() {
+    this.entities.getStars()
+      .subscribe(res => {
+        this.stars = res;
+      }, err => {
+        if (err.type == "Auth") {
+          this.auth.clearToken();
+          this.router.navigateByUrl('/');
+        }
+      });
+  }
 
   ngOnInit() {
-		this.loadStars();
+    this.loadStars();
   }
 
   select(star) {
-		if(this.selectedStar && this.selectedStar._id == star._id) {
-			this.selectedStar = undefined;
-		} else {
-			this.selectedStar = star;
-		}
-	}
+    if (this.selectedStar && this.selectedStar._id == star._id) {
+      this.selectedStar = undefined;
+    } else {
+      this.selectedStar = star;
+    }
+  }
 
-	create() {
-		this.selectedStar = new Entity();
-	}
+  create() {
+    this.selectedStar = new Entity();
+  }
 
-	save(star) {
-		console.log("save", star);
-		if(star._id) {
-			this.entities.saveStar(star)
-			.subscribe(res => {
-				console.log("save star result:", res);
-				this.selectedStar = new Entity(res);
-				this.loadStars();
-			});
-		} else {
-			this.entities.createStar(star)
-			.subscribe(res => {
-				console.log("create star result:", res);
-				this.selectedStar = new Entity(res);
-				this.loadStars();
-			});
-		}
-	}
+  save(star) {
+    if (star._id) {
+      this.entities.saveStar(star)
+        .subscribe(res => {
+          this.selectedStar = new Entity(res);
+          this.loadStars();
+        });
+    } else {
+      this.entities.createStar(star)
+        .subscribe(res => {
+          this.selectedStar = new Entity(res);
+          this.loadStars();
+        });
+    }
+  }
 
-	cancel() {
-		this.selectedStar = undefined;
-	}
+  cancel() {
+    this.selectedStar = undefined;
+  }
 
-	delete(star) {
-		console.log("delete star", star);
-		this.entities.deleteStar(star)
-		.subscribe(res => {
-			console.log("delete star result:", res);
-			this.selectedStar = undefined;
-			this.loadStars();
-		});
-	}
+  delete(star) {
+    this.entities.deleteStar(star)
+      .subscribe(res => {
+        this.selectedStar = undefined;
+        this.loadStars();
+      });
+  }
 }

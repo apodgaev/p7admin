@@ -28,6 +28,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use('/api', require('./routes'));
 app.use('/', express.static(__dirname + '/../client/dist'));
+app.use('/images', express.static(__dirname + '/../images'));
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
 
 exports = module.exports = function (db) {

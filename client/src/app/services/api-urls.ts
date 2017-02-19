@@ -13,5 +13,8 @@ export const apiUrls = {
 	wrongUrl: srv + "/somethingbad",
 	setConfig : srv + "/config",
 	stars : srv + "/stars",
-	star: srv + "/stars/:id"
+	star: srv + "/stars/:id",
+	lists: {
+		planetType: srv + "/lists/planet-type"
+	}
 };

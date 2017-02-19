@@ -31,5 +31,6 @@ var preflight = function preflight(req, res, next) {
 
 router.use('/auth', require('./auth'));
 router.use('/stars', preflight, auth, isAdmin, require('./stars'));
+router.use('/lists', preflight, auth, isAdmin, require('./lists'));
 
 module.exports = router;
