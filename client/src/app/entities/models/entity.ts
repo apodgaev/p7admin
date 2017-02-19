@@ -39,9 +39,3 @@ export class Entity extends DBEntity implements IEntity {
 		return true;
 	}
 }
-
-export class Star extends Entity {
-	constructor(input?: Object) {
-		super(input);
-	}
-}

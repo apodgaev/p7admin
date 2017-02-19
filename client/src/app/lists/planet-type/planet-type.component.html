@@ -1,9 +1,12 @@
 <md-nav-list>
  <a md-list-item
  *ngFor="let item of planetTypes"
+ [class.active]="item._id == selectedItem?._id"
  (click)="select(item)"> {{ item.name }} </a>
  <a md-list-item
- (click)="create()"> Add item </a>
+ class="add-item"
+ [class.active]="0 == selectedItem?._id"
+ (click)="create()"><md-icon>add</md-icon> Add item </a>
 </md-nav-list>
 <md-card *ngIf="selectedItem">
 	<md-card-content>
