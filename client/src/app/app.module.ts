@@ -28,6 +28,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './login/register/register.component';
 import { StarInfoComponent } from './entities/stars/star-info/star-info.component';
 import { PlanetTypeComponent } from './lists/planet-type/planet-type.component';
+import { SelectListComponent } from './select-list/select-list.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { PlanetTypeComponent } from './lists/planet-type/planet-type.component';
     LoginComponent,
 		RegisterComponent,
 		StarInfoComponent,
-		PlanetTypeComponent
+		PlanetTypeComponent,
+		SelectListComponent
   ],
 	entryComponents: [
 		RegisterComponent

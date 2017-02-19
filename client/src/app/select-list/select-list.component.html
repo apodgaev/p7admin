@@ -1,0 +1,10 @@
+<md-nav-list>
+ <a md-list-item
+	 *ngFor="let item of items"
+	 [class.active]="item._id == selectedItem?._id"
+	 (click)="select(item)"> {{ item.name }} </a>
+ <a md-list-item
+	 class="add-item"
+	 [class.active]="0 == selectedItem?._id"
+	 (click)="add()"><md-icon>add</md-icon> Add</a>
+</md-nav-list>
