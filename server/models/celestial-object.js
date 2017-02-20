@@ -6,6 +6,7 @@ var options = {discriminatorKey: 'objectType'};
 
 var CelestialObjectSchema = new mongoose.Schema({
 	name : { type: String, unique: true, required: true },
+	description : { type: String },
 	position : {
 		radius : Number,
 		angle : Number

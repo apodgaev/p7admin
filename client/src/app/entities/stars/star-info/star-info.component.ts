@@ -60,4 +60,10 @@ export class StarInfoComponent implements OnInit {
 	delete() {
 		if(!!this.onDelete) this.onDelete.emit(this.star);
 	}
+
+	addOrbit(event) {
+		console.log("addOrbit click", event);
+		
+	}
+
 }
