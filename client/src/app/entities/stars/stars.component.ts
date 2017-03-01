@@ -25,10 +25,7 @@ export class StarsComponent implements OnInit {
       .subscribe(res => {
         this.stars = res;
       }, err => {
-        if (err.type == "Auth") {
-          this.auth.clearToken();
-          this.router.navigateByUrl('/');
-        }
+        console.log("err", err);
       });
   }
 

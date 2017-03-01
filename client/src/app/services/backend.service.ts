@@ -3,6 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
+import { AuthService } from '../login/auth.service';
 
 export interface ResponseWrapper<T> {
   error   : number;
@@ -22,11 +23,20 @@ enum RequestType {GET,POST,PUT,DELETE}
 @Injectable()
 export class BackendService {
 
+	private token : String;
   constructor(
+		private auth: AuthService,
 		private http: Http,
 		private _router : Router,
 		public _snackBar: MdSnackBar
 	) { }
+
+	init() {
+		this.token = this.auth.isAuthorized();
+		this.auth.subscribe(() => {
+			this.token = this.auth.isAuthorized();
+		});
+	}
 
 	private openPopup(message : string) {
 		this._snackBar.open(message, undefined, {
@@ -64,10 +74,6 @@ export class BackendService {
 			});
 	}
 
-	private token = "";
-	public setAuthToken(token) {
-		this.token = token;
-	}
 
 	private request(method, url, options, body?) {
 		//console.log("request", url, options);

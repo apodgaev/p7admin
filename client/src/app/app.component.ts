@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './login/auth.service';
+import { BackendService } from './services/backend.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,32 +15,32 @@ export class AppComponent implements OnInit {
 
 	constructor (
 		private router : Router,
-		private auth : AuthService
+		private auth : AuthService,
+		private backend: BackendService
 	)	{
 		this.isAuth = false;
 	}
 
-	refreshState(state) {
-		this.isAuth = state;
-	}
-
 	ngOnInit() {
-		if (this.auth.isAuthorized()) {
-			// initialize
-			this.refreshState(true);
+		this.auth.init();
+		this.backend.init();
+		this.isAuth = !!this.auth.isAuthorized();
+		if(this.isAuth) {
+			this.router.navigateByUrl('dashboard');
 		}
-		this.auth.subscribe(state => {
-			this.refreshState(state);
+		console.log("isAuth", this.isAuth);
+		this.auth.subscribe(() => {
+			let token = this.auth.isAuthorized();
+			console.log("core app state change", token);
+			this.isAuth = !!token;
+			if(!token && !this.router.isActive('/', true)) {
+				this.router.navigateByUrl('/');
+			}
 		});
   }
 
 	logout(event) {
 		event.preventDefault();
-		this.auth.logout()
-			.subscribe(res => {
-				console.log("logout success", res);
-				this.refreshState(false);
-				this.router.navigate(['/']);
-			});
+		this.auth.logout();
 	}
 }

@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
 		email : "",
 		password : ""
 	};
+	private unsubscriber;
 
   constructor(
 		private router : Router,
@@ -23,22 +24,31 @@ export class LoginComponent implements OnInit {
 	) { }
 
   ngOnInit() {
-		if (this.auth.isAuthorized()) {
+		if (!!this.auth.isAuthorized()) {
 			// redirect to dashboard
 			//this.router.navigate(['/dashboard']);
 		}
+		this.unsubscriber = this.auth.subscribe(() => {
+			let token = this.auth.isAuthorized();
+			console.log("login component new state", token);
+			if(!!token) {
+				this.router.navigate(['/dashboard']);
+			}
+		});
   }
 
 	doLogin() {
 		if (this.cred.email && this.cred.password) {
 			console.log(this.cred);
-			this.auth.login(this.cred)
+			this.auth.login(this.cred);
+			/*
 				.subscribe(res  => {
 						this.router.navigate(['/dashboard']);
 					}, err => {
 						console.log("doLogin error", err);
 						//TODO: set validation state to controls
 					});
+					*/
 		}
 	}
 
@@ -46,12 +56,14 @@ export class LoginComponent implements OnInit {
 		let dialogRef = this.dialog.open(RegisterComponent);
     dialogRef.afterClosed().subscribe(result => {
 			if (result) {
-				this.auth.register(result)
+				this.auth.register(result);
+				/*
 					.subscribe(res => {
 						this.router.navigate(['/dashboard']);
 					}, err => {
 						this.register();
 					});
+					*/
 			}
     });
 	}
