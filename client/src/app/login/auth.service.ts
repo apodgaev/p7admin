@@ -37,14 +37,26 @@ const authAction = () => {
 
 const logoutState = {loading: false, user: null, token: ""};
 
+function parseToken(token) : IUser {
+	let payload;
+	payload = token.split('.')[1];
+	payload = window.atob(payload);
+	payload = JSON.parse(payload);
+	return <IUser>payload;
+}
+
 @Injectable()
 export class AuthService {
 	private _store;
+	private httpOptions;
 
 	constructor(
 		private http: Http,
 		private ls: StorageService
-	) {}
+	) {
+		this.httpOptions = new RequestOptions({ headers: new Headers() });
+		this.httpOptions.headers.append('Content-Type', 'application/json');
+	}
 
 	init() {
 		console.log("init");
@@ -54,7 +66,7 @@ export class AuthService {
 		let token = this.ls.load("token");
 		if (token) {
 			let state = {
-				user : this.parseToken(token),
+				user : parseToken(token),
 				token : token
 			};
 			initState = Object.assign(initState, state);
@@ -71,7 +83,7 @@ export class AuthService {
 	private authHandler(state = logoutState, action) : any {
 		switch(action.type) {
 			case LOGIN_ACTION:
-				let user = this.parseToken(action.token);
+				let user = parseToken(action.token);
 				return Object.assign({}, {
 					loading: false,
 					user: user,
@@ -92,14 +104,6 @@ export class AuthService {
 		}
 	}
 
-	private parseToken(token) : IUser {
-		let payload;
-		payload = token.split('.')[1];
-		payload = window.atob(payload);
-		payload = JSON.parse(payload);
-		return <IUser>payload;
-	}
-
 	public isAuthorized() : String {
 		let state = this._store.getState();
 		if(state && state.token) {
@@ -117,7 +121,7 @@ export class AuthService {
 
 	public login(user) {
 		this._store.dispatch(authAction());
-		this.http.post(apiUrls.auth.login, JSON.stringify(user))
+		this.http.post(apiUrls.auth.login, JSON.stringify(user), this.httpOptions)
 			.map(res =>  res.json())
 			.subscribe(res => {
 				if (res && res.data && res.data.token) {
@@ -131,7 +135,7 @@ export class AuthService {
 
 	public logout() {
 		this._store.dispatch(authAction());
-		this.http.post(apiUrls.auth.logout, "")
+		this.http.post(apiUrls.auth.logout, "", this.httpOptions)
 			.map(res =>  res.json())
 			.subscribe(res => {
 				console.log("logout result", res);
@@ -144,7 +148,7 @@ export class AuthService {
 
 	public register(user) {
 		this._store.dispatch(authAction());
-		this.http.post(apiUrls.auth.register, JSON.stringify(user))
+		this.http.post(apiUrls.auth.register, JSON.stringify(user), this.httpOptions)
 			.map(res =>  res.json())
 			.subscribe(res => {
 				if (res && res.data && res.data.token) {

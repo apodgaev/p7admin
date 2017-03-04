@@ -3757,10 +3757,19 @@ var authAction = function () {
     };
 };
 var logoutState = { loading: false, user: null, token: "" };
+function parseToken(token) {
+    var payload;
+    payload = token.split('.')[1];
+    payload = window.atob(payload);
+    payload = JSON.parse(payload);
+    return payload;
+}
 var AuthService = (function () {
     function AuthService(http, ls) {
         this.http = http;
         this.ls = ls;
+        this.httpOptions = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* RequestOptions */]({ headers: new __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* Headers */]() });
+        this.httpOptions.headers.append('Content-Type', 'application/json');
     }
     AuthService.prototype.init = function () {
         var _this = this;
@@ -3771,7 +3780,7 @@ var AuthService = (function () {
         var token = this.ls.load("token");
         if (token) {
             var state = {
-                user: this.parseToken(token),
+                user: parseToken(token),
                 token: token
             };
             initState = Object.assign(initState, state);
@@ -3786,7 +3795,7 @@ var AuthService = (function () {
         if (state === void 0) { state = logoutState; }
         switch (action.type) {
             case LOGIN_ACTION:
-                var user = this.parseToken(action.token);
+                var user = parseToken(action.token);
                 return Object.assign({}, {
                     loading: false,
                     user: user,
@@ -3806,13 +3815,6 @@ var AuthService = (function () {
                 return state;
         }
     };
-    AuthService.prototype.parseToken = function (token) {
-        var payload;
-        payload = token.split('.')[1];
-        payload = window.atob(payload);
-        payload = JSON.parse(payload);
-        return payload;
-    };
     AuthService.prototype.isAuthorized = function () {
         var state = this._store.getState();
         if (state && state.token) {
@@ -3829,7 +3831,7 @@ var AuthService = (function () {
     AuthService.prototype.login = function (user) {
         var _this = this;
         this._store.dispatch(authAction());
-        this.http.post(__WEBPACK_IMPORTED_MODULE_1__services_api_urls__["a" /* apiUrls */].auth.login, JSON.stringify(user))
+        this.http.post(__WEBPACK_IMPORTED_MODULE_1__services_api_urls__["a" /* apiUrls */].auth.login, JSON.stringify(user), this.httpOptions)
             .map(function (res) { return res.json(); })
             .subscribe(function (res) {
             if (res && res.data && res.data.token) {
@@ -3843,7 +3845,7 @@ var AuthService = (function () {
     AuthService.prototype.logout = function () {
         var _this = this;
         this._store.dispatch(authAction());
-        this.http.post(__WEBPACK_IMPORTED_MODULE_1__services_api_urls__["a" /* apiUrls */].auth.logout, "")
+        this.http.post(__WEBPACK_IMPORTED_MODULE_1__services_api_urls__["a" /* apiUrls */].auth.logout, "", this.httpOptions)
             .map(function (res) { return res.json(); })
             .subscribe(function (res) {
             console.log("logout result", res);
@@ -3856,7 +3858,7 @@ var AuthService = (function () {
     AuthService.prototype.register = function (user) {
         var _this = this;
         this._store.dispatch(authAction());
-        this.http.post(__WEBPACK_IMPORTED_MODULE_1__services_api_urls__["a" /* apiUrls */].auth.register, JSON.stringify(user))
+        this.http.post(__WEBPACK_IMPORTED_MODULE_1__services_api_urls__["a" /* apiUrls */].auth.register, JSON.stringify(user), this.httpOptions)
             .map(function (res) { return res.json(); })
             .subscribe(function (res) {
             if (res && res.data && res.data.token) {
