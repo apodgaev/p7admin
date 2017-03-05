@@ -1,6 +1,8 @@
 @import '../../../styles';
 .fab-button {
-	@include position(fixed, null 0.5rem 0.5rem null);
+	position: fixed;
+	right: 0.5rem;
+	bottom: 0.5rem;
 }
 .stars{
 	@include flex-container(column);

@@ -1,17 +1,15 @@
 @mixin flex-container($direction: row) {
-  @include display(flex);
-  @include flex-direction($direction);
-  @include justify-content(flex-start);
-	@include align-items(stretch);
-	@include align-content(stretch);
+	display: flex;
+  flex-direction: $direction;
+	justify-content: flex-start;
+  align-items: stretch;
+	align-content: stretch;
 }
 @mixin fixed-flex-item {
-	@include flex(0 0 auto);
-	@include align-self(stretch);
+	flex: 0 0 auto;
 }
 @mixin flex-item {
-	@include flex(1 1 100%);
-	@include align-self(stretch);
+	flex: 1 1 100%;
 }
 $medium : 40rem;
 @mixin media($size : $medium) {
