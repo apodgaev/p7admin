@@ -3,36 +3,13 @@ import { apiUrls } from '../services/api-urls';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { StorageService } from '../services/storage.service';
 import { createStore } from 'redux';
+import { LogoutReason, LOGIN_ACTION, LOGOUT_ACTION, AUTH_ACTION, loginAction, logoutAction, authAction } from './actions';
 
 export interface IUser {
 	email : string;
 	name : string;
+	admin: boolean;
 	exp : number;
-}
-
-// action types
-const LOGIN_ACTION = "LOGIN";
-const LOGOUT_ACTION = "LOGOUT";
-const AUTH_ACTION = "AUTH";
-
-// action builders
-const loginAction = (token) => {
-	return {
-		type: LOGIN_ACTION,
-		token: token
-	}
-}
-
-const logoutAction = () => {
-	return {
-		type: LOGOUT_ACTION
-	}
-}
-
-const authAction = () => {
-	return {
-		type: AUTH_ACTION
-	}
 }
 
 const logoutState = {loading: false, user: null, token: ""};
@@ -60,11 +37,11 @@ export class AuthService {
 
 	init() {
 		console.log("init");
-		let initState = {
-			loading: false
-		};
+		// initial state = logged out
+		let initState = logoutState;
 		let token = this.ls.load("token");
 		if (token) {
+			// if token is saved - consider we are logged in
 			let state = {
 				user : parseToken(token),
 				token : token
@@ -109,7 +86,7 @@ export class AuthService {
 		if(state && state.token) {
 			let auth = state.user.exp > Date.now() / 1000;
 			if(!auth) {
-				this._store.dispatch(logoutAction());
+				this._store.dispatch(logoutAction(LogoutReason.SessionExpired));
 			}
 		}
 		return state.token;
@@ -129,7 +106,7 @@ export class AuthService {
 					this._store.dispatch(loginAction(res.data.token));
 				}
 			},err => {
-				this._store.dispatch(logoutAction());
+				this._store.dispatch(logoutAction(LogoutReason.WrongCredentials));
 			});
 	}
 
@@ -141,7 +118,7 @@ export class AuthService {
 				console.log("logout result", res);
 				if(res.data.OK) {
 					this.ls.remove("token");
-					this._store.dispatch(logoutAction());
+					this._store.dispatch(logoutAction(LogoutReason.UserChoice));
 				}
 			});
 	}
