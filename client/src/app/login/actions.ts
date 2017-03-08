@@ -1,13 +1,20 @@
 // action types
-export const LOGIN_ACTION = "LOGIN";
-export const LOGOUT_ACTION = "LOGOUT";
-export const AUTH_ACTION = "AUTH";
+const LOGIN_ACTION = "LOGIN";
+const LOGOUT_ACTION = "LOGOUT";
+const AUTH_ACTION = "AUTH";
+
+export const ActionType = {
+	LOGIN_ACTION: LOGIN_ACTION,
+	LOGOUT_ACTION: LOGOUT_ACTION,
+	AUTH_ACTION: AUTH_ACTION
+}
 
 // logout reasons
 export const LogoutReason = {
 	UserChoice : "USER",
 	WrongCredentials: "CRED",
-	SessionExpired: "EXPIRED"
+	SessionExpired: "EXPIRED",
+	ConnectionError: "NETWORK"
 };
 
 // action builders

@@ -3,7 +3,7 @@ import { apiUrls } from '../services/api-urls';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { StorageService } from '../services/storage.service';
 import { createStore } from 'redux';
-import { LogoutReason, LOGIN_ACTION, LOGOUT_ACTION, AUTH_ACTION, loginAction, logoutAction, authAction } from './actions';
+import { LogoutReason, ActionType, loginAction, logoutAction, authAction } from './actions';
 
 export interface IUser {
 	email : string;
@@ -63,20 +63,20 @@ export class AuthService {
 
 	private authHandler(state = logoutState, action) : any {
 		switch(action.type) {
-			case LOGIN_ACTION:
+			case ActionType.LOGIN_ACTION:
 				let user = parseToken(action.token);
 				return Object.assign({}, {
 					loading: false,
 					user: user,
 					token: action.token
 				});
-			case LOGOUT_ACTION:
+			case ActionType.LOGOUT_ACTION:
 				return Object.assign({}, {
 					loading: false,
 					user: null,
 					token: ""
 				});
-			case AUTH_ACTION:
+			case ActionType.AUTH_ACTION:
 				return Object.assign({}, state, {
 					loading: true
 				});
@@ -125,6 +125,11 @@ export class AuthService {
 					this._store.dispatch(logoutAction(LogoutReason.UserChoice));
 				}
 			});
+	}
+
+	public disconnected() {
+		this.ls.remove("token");
+		this._store.dispatch(logoutAction(LogoutReason.ConnectionError));
 	}
 
 	public register(user) {

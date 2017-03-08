@@ -1,0 +1,39 @@
+<section class="celestial-section">
+	<h2 md-dialog-title>
+		<span>{{title}}</span>
+	</h2>
+	<md-dialog-content>
+		<md-select class="full-width"
+			[disabled]="!isNew"
+			placeholder="Celestial type"
+			(change)="typeChange()"
+			[(ngModel)]="cType"
+			name="type">
+	    <md-option *ngFor="let type of types" [value]="type">
+	      {{type}}
+	    </md-option>
+	  </md-select>
+		<md-input-container class="full-width">
+			<input mdInput name="name" placeholder="Name" [(ngModel)]="editModel.name">
+		</md-input-container>
+		<md-input-container class="full-width">
+			<textarea mdInput name="description" placeholder="Description" [(ngModel)]="editModel.description"></textarea>
+		</md-input-container>
+		<div class="row">
+			<md-input-container class="half-width">
+				<input mdInput name="radius" placeholder="Radius" [(ngModel)]="editModel.position.radius">
+			</md-input-container>
+			<md-input-container class="half-width">
+				<input mdInput name="angle" placeholder="Angle" [(ngModel)]="editModel.position.angle">
+			</md-input-container>
+		</div>
+	</md-dialog-content>
+	<md-dialog-actions align="end">
+		<button md-icon-button color="primary" (click)="save()">
+			<md-icon>save</md-icon>
+		</button>
+		<button md-icon-button md-dialog-close>
+			<md-icon>cancel</md-icon>
+		</button>
+	</md-dialog-actions>
+</section>

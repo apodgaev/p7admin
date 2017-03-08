@@ -2,7 +2,8 @@ import { DBEntity } from './base';
 
 interface IEntity {
 	_id : string,
-	name : string
+	name : string,
+	description : string
 }
 
 export class Entity extends DBEntity implements IEntity {
@@ -16,7 +17,7 @@ export class Entity extends DBEntity implements IEntity {
 		} else {
 			// create new
 			super({
-				_id: 0,
+				_id: "0",
 				name: "New entity name",
 				description: "New entity description"
 			});

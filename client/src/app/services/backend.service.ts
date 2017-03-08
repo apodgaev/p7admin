@@ -18,6 +18,13 @@ export class AuthError extends Error {
   }
 }
 
+export class ConnectionError extends Error {
+	public type = "Network";
+  constructor (public message: string){
+		super(message);
+  }
+}
+
 enum RequestType {GET,POST,PUT,DELETE}
 
 @Injectable()
@@ -55,22 +62,32 @@ export class BackendService {
 				}
 			}).catch((error: Response) => {
 				console.log("Request error:", error);
-				let result;
-				if (error.status == 401 || error.status == 0) {
-					let message = error.json().message;
-					message = (message)? "Auth error: " + message : "Authorization failed!";
-					this.openPopup(message);
-					result = Observable.throw(new AuthError(message));
-					if (!this._router.isActive('/', true)) {
-						this._router.navigateByUrl('/');
-					}
-				} else {
-					console.debug("error:", error);
-					let message = error.statusText || 'Server error';
-					this.openPopup(message);
-			    result = Observable.throw(new Error(message));
+				let result, message;
+				switch(error.status) {
+					case 0:
+						message = "Backend disconnected!";
+						result = new ConnectionError(message);
+						if (!this._router.isActive('/', true)) {
+							this._router.navigateByUrl('/');
+						}
+						break;
+					case 401:
+						message = error.json().message;
+						message = (message)? "Auth error: " + message : "Authorization failed!";
+						result = new AuthError(message);
+						if (!this._router.isActive('/', true)) {
+							this._router.navigateByUrl('/');
+						}
+						break;
+					default:
+						console.debug("error:", error);
+						message = error.statusText || 'Server error';
+				    result = new Error(message);
+						return Observable.throw(result);
 				}
-				return result;
+				this.openPopup(message);
+				this.auth.disconnected();
+				return;
 			});
 	}
 

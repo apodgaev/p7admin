@@ -29,6 +29,7 @@ import { RegisterComponent } from './login/register/register.component';
 import { StarInfoComponent } from './entities/stars/star-info/star-info.component';
 import { PlanetTypeComponent } from './lists/planet-type/planet-type.component';
 import { SelectListComponent } from './select-list/select-list.component';
+import { CelestialComponent } from './entities/stars/star-info/celestial/celestial.component';
 
 @NgModule({
   declarations: [
@@ -41,10 +42,12 @@ import { SelectListComponent } from './select-list/select-list.component';
 		RegisterComponent,
 		StarInfoComponent,
 		PlanetTypeComponent,
-		SelectListComponent
+		SelectListComponent,
+		CelestialComponent
   ],
 	entryComponents: [
-		RegisterComponent
+		RegisterComponent,
+		CelestialComponent
 	],
   imports: [
 		RouterModule.forRoot(AppRoutes),

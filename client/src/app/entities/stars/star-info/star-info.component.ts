@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
 import { Entity } from '../../models/entity';
+import { MdDialog, MdDialogRef } from '@angular/material';
+import { CelestialComponent } from './celestial/celestial.component';
+import { CelestialObject } from '../../models/celestial-object';
 
 @Component({
   selector: 'star-info',
@@ -24,7 +26,7 @@ export class StarInfoComponent implements OnInit {
 
 	private editModel : Entity;
 
-  constructor() {
+  constructor(public dialog: MdDialog) {
 		this.isEdit = false;
 	}
 
@@ -62,8 +64,12 @@ export class StarInfoComponent implements OnInit {
 	}
 
 	addOrbit(event) {
-		console.log("addOrbit click", event);
-		
+		let dialogRef = this.dialog.open(CelestialComponent);
+    dialogRef.afterClosed().subscribe(result => {
+			if (result) {
+				console.log("celestial close", result);
+			}
+    });
 	}
 
 }

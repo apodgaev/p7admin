@@ -18,3 +18,13 @@ html, body {
 .button-icon {
 	font-size: 1.2rem;
 }
+.full-width {
+	width: 100%;
+}
+.row {
+	@include flex-container;
+}
+.half-width {
+	width: 50%;
+	@include flex-item;
+}

@@ -4,13 +4,13 @@
 		<md-placeholder>
 			<md-icon class="input-icon">mail_outline</md-icon> Email
 		</md-placeholder>
-		<input md-input [(ngModel)]="cred.email">
+		<input mdInput [(ngModel)]="cred.email">
 	</md-input-container>
 	<md-input-container>
 		<md-placeholder>
 			<md-icon class="input-icon">vpn_key</md-icon> Password
 		</md-placeholder>
-		<input type="password" md-input [(ngModel)]="cred.password">
+		<input type="password" mdInput [(ngModel)]="cred.password">
 	</md-input-container>
 	<hr/>
 	<button md-button color="primary" (click)="doLogin()">
