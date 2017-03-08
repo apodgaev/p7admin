@@ -48,9 +48,13 @@ export class AuthService {
 			};
 			initState = Object.assign(initState, state);
 		}
+		/* eslint-disable no-underscore-dangle */
+		let ext = typeof window !== 'undefined' && window['__REDUX_DEVTOOLS_EXTENSION__'] && window['__REDUX_DEVTOOLS_EXTENSION__']();
 		this._store = createStore(
 			this.authHandler,
-			initState);
+			initState,
+			ext);
+		/* eslint-enable */
 		console.log("initial auth state:", this._store.getState());
 		let unsubscribe = this._store.subscribe(() =>
   		console.log("auth state change:", this._store.getState())
