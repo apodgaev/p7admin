@@ -27,6 +27,15 @@
 				<input mdInput name="angle" placeholder="Angle" [(ngModel)]="editModel.position.angle">
 			</md-input-container>
 		</div>
+		<md-select class="full-width"
+			*ngIf="cType == 'Planet'"
+			placeholder="Planet type"
+			[(ngModel)]="editModel.planetType"
+			name="ptype">
+	    <md-option *ngFor="let ptype of planetTypes" [value]="ptype._id">
+	      {{ptype.name}}
+	    </md-option>
+	  </md-select>
 	</md-dialog-content>
 	<md-dialog-actions align="end">
 		<button md-icon-button color="primary" (click)="save()">

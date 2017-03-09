@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MdDialog, MdDialogRef, MdSelectChange } from '@angular/material';
 import { CelestialObject, CelestialObjectType, CelestialObjectTypes } from '../../../models/celestial-object';
 import { Planet } from '../../../models/planet';
+import { EntitiesService } from '../../../../services/entities.service';
 
 @Component({
   selector: 'app-celestial',
@@ -15,8 +16,11 @@ export class CelestialComponent implements OnInit {
 	private types;
 	private cType;
 	private title : string;
+	private planetTypes;
 
-  constructor(public dialogRef: MdDialogRef<CelestialComponent>) { }
+  constructor(
+		public dialogRef: MdDialogRef<CelestialComponent>,
+		private entities: EntitiesService) { }
 
   ngOnInit() {
 		this.types = CelestialObjectTypes;
@@ -30,6 +34,10 @@ export class CelestialComponent implements OnInit {
 			this.editModel = new CelestialObject();
 		}
 		this.title = (this.isNew) ? "New Celestial Object" : this.editModel.name;
+		this.entities.getPlanetTypeList()
+      .subscribe(list => {
+        this.planetTypes = list;
+      });
   }
 
 	private buildCelestial(type) {

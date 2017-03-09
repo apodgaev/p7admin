@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Entity } from '../../models/entity';
+import { Star } from '../../models/star';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { CelestialComponent } from './celestial/celestial.component';
 import { CelestialObject } from '../../models/celestial-object';
@@ -68,6 +69,9 @@ export class StarInfoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 			if (result) {
 				console.log("celestial close", result);
+				this.editModel = <Star>(this.star.clone());
+				(<Star>this.editModel).orbits.push(result);
+				if(!!this.onSave) this.onSave.emit(this.editModel);
 			}
     });
 	}

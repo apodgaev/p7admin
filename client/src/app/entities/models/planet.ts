@@ -3,8 +3,12 @@ import { PlanetType } from './planet-type';
 
 export class Planet extends CelestialObject {
 	planetType : PlanetType;
-	satellites: [CelestialObject];
+	satellites: CelestialObject[];
 	constructor(input?: Object) {
 		super(input);
+		if(!input) {
+			this.planetType = null;
+			this.satellites = [];
+		}
 	}
 }
