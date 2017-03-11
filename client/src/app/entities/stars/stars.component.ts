@@ -61,6 +61,15 @@ export class StarsComponent implements OnInit {
     }
   }
 
+	addOrbit(planet) {
+		this.entities.addPlanet(this.selectedStar, planet)
+			.subscribe(res => {
+				console.log("result", res);
+				//this.selectedStar = new Entity(res);
+				this.loadStars();
+			});
+	}
+
   cancel() {
     this.selectedStar = undefined;
   }

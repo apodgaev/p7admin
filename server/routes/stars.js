@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var db = require('../db');
 var Star = require('../models/star');
+var Planet = require('../models/planet');
 var handleResult = require('../helpers/handle-result');
 var errors = require('../helpers/connection-error');
 
@@ -63,6 +64,7 @@ router.put('/:id', function(req, res) {
 	console.log("update star request", req.params.id);
   // Otherwise continue
 	var starData = req.body;
+	console.log("starData", starData);
 	var star = req.star;
 	for (let p in starData) {
 		if(starData.hasOwnProperty(p)) {
@@ -79,6 +81,19 @@ router.delete('/:id', function(req, res) {
 	let star = req.star;
 	star.remove(function(err) {
 		handleResult(res, err, {});
+	});
+});
+
+router.post('/:id/planet', function(req, res) {
+	console.log("update star with new planet request", req.params.id);
+	var planetData = req.body;
+	console.log("planetData", planetData);
+	var planet = new Planet(planetData);
+	var star = req.star;
+	star.orbits.push(planet);
+	star.save(function(err, star) {
+		console.log("saving result:", star);
+		handleResult(res, err, star);
 	});
 });
 

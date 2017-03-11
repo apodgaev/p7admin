@@ -12,7 +12,7 @@ export class PlanetType extends DBEntity {
 		} else {
 			// create new
 			super({
-				_id: 0,
+				_id: "0",
 				name: "New entity name",
 				description: "New entity description",
 				imageUrl: ""

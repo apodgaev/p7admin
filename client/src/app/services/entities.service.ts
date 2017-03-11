@@ -29,6 +29,10 @@ export class EntitiesService {
 		return this.backend.put(apiUrls.star.replace(':id', star._id), star);
 	}
 
+	public addPlanet(star : Entity, planet : Entity) {
+		return this.backend.post(apiUrls.planet.replace(':id', star._id), planet);
+	}
+
 	public deleteStar(star: Entity) {
 		return this.backend.delete(apiUrls.star.replace(':id', star._id));
 	}

@@ -64,14 +64,20 @@ export class StarInfoComponent implements OnInit {
 		if(!!this.onDelete) this.onDelete.emit(this.star);
 	}
 
+	@Output('on-add') onAdd = new EventEmitter();
 	addOrbit(event) {
 		let dialogRef = this.dialog.open(CelestialComponent);
     dialogRef.afterClosed().subscribe(result => {
 			if (result) {
-				console.log("celestial close", result);
+				/*
+				let celestial = result.clone();
+				celestial._id = undefined;
+				console.log("celestial", celestial);
 				this.editModel = <Star>(this.star.clone());
-				(<Star>this.editModel).orbits.push(result);
-				if(!!this.onSave) this.onSave.emit(this.editModel);
+				(<Star>this.editModel).orbits.push(celestial);
+				console.log("star", this.editModel);
+				*/
+				if(!!this.onAdd) this.onAdd.emit(result);
 			}
     });
 	}

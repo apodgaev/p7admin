@@ -14,6 +14,7 @@ export const apiUrls = {
 	setConfig : srv + "/config",
 	stars : srv + "/stars",
 	star: srv + "/stars/:id",
+	planet: srv + "/stars/:id/planet",
 	lists: {
 		planetType: srv + "/lists/planet-type"
 	}
