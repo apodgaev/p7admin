@@ -7,13 +7,13 @@
 <md-card *ngIf="selectedItem">
 	<md-card-content>
 		<md-input-container class="full-width">
-			<input md-input name="name" placeholder="Name" [(ngModel)]="selectedItem.name">
+			<input mdInput name="name" placeholder="Name" [(ngModel)]="selectedItem.name">
 		</md-input-container>
 		<md-input-container class="full-width">
-			<textarea md-input name="description" placeholder="Description" [(ngModel)]="selectedItem.description"></textarea>
+			<textarea mdInput name="description" placeholder="Description" [(ngModel)]="selectedItem.description"></textarea>
 		</md-input-container>
 		<md-input-container class="full-width">
-			<input md-input name="imageUrl" placeholder="URL of the image" [(ngModel)]="selectedItem.imageUrl">
+			<input mdInput name="imageUrl" placeholder="URL of the image" [(ngModel)]="selectedItem.imageUrl">
 		</md-input-container>
 	</md-card-content>
 	<md-card-actions align="end">

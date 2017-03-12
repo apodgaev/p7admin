@@ -1,22 +1,21 @@
 @import '../../../styles';
-.fab-button {
-	position: fixed;
-	right: 0.5rem;
-	bottom: 0.5rem;
-}
 .stars{
 	@include flex-container(column);
 	@include media() {
 		@include flex-container(row);
+		max-width: 40rem;
 	}
 	.left-pane {
 		@include fixed-flex-item();
-		width: 19rem;
+		@include media() {
+			width: 50%;
+		}
 	}
 	.right-pane {
 		@include flex-item;
 		@include media() {
-			margin-left: 2rem;
+			margin-left: 1rem;
+			width: 50%;
 		}
 	}
 }

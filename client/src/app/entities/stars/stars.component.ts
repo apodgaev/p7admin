@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../login/auth.service';
 import { EntitiesService } from '../../services/entities.service';
 
-import { Entity } from '../models/entity';
+import { Star } from '../models/star';
 
 @Component({
   selector: 'app-stars',
@@ -11,7 +11,7 @@ import { Entity } from '../models/entity';
   styleUrls: ['./stars.component.scss']
 })
 export class StarsComponent implements OnInit {
-  private stars: any[];
+  private stars: Star[];
   private selectedStar;
 
   constructor(
@@ -25,7 +25,7 @@ export class StarsComponent implements OnInit {
       .subscribe(res => {
         this.stars = res;
       }, err => {
-        console.log("err", err);
+        console.error("Error:", err);
       });
   }
 
@@ -42,20 +42,20 @@ export class StarsComponent implements OnInit {
   }
 
   create() {
-    this.selectedStar = new Entity();
+    this.selectedStar = new Star();
   }
 
   save(star) {
     if (star._id) {
       this.entities.saveStar(star)
         .subscribe(res => {
-          this.selectedStar = new Entity(res);
+          this.selectedStar = new Star(res);
           this.loadStars();
         });
     } else {
       this.entities.createStar(star)
         .subscribe(res => {
-          this.selectedStar = new Entity(res);
+          this.selectedStar = new Star(res);
           this.loadStars();
         });
     }

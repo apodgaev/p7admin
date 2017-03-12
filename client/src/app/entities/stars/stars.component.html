@@ -1,6 +1,7 @@
 <div class="entities stars page">
 	<div class="left-pane">
 		<select-list
+			[header]="'Stars'"
 			[items]="stars"
 			[selected-item]="selectedStar"
 			(on-select)="select($event)"
@@ -16,7 +17,4 @@
 			[star]="selectedStar">
 		</star-info>
 	</div>
-	<button class="fab-button" md-fab (click)="create()">
-		<md-icon>add</md-icon>
-	</button>
 </div>

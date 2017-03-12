@@ -2,7 +2,7 @@
 var mongoose = require('mongoose');
 var dberror = require('./dberror');
 
-var options = {discriminatorKey: 'objectType'};
+var options = {discriminatorKey: 'objectType', _id: false};
 
 var CelestialObjectSchema = new mongoose.Schema({
 	name : { type: String, unique: true, required: true },

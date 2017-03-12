@@ -1,5 +1,9 @@
 @import '../styles';
 .app-toolbar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10;
 	@include fixed-flex-item;
 	h1 {
 		font-size: 1.5rem;
@@ -10,6 +14,7 @@
 	}
 }
 .app-container {
+	margin-top: 4rem;
 	@include flex-item;
 	.side-nav {
 		font-size: 1.2rem;

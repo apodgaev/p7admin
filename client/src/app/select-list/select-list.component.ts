@@ -10,6 +10,9 @@ export class SelectListComponent {
   constructor() { }
 
 	@Input()
+	public header : string;
+
+	@Input()
 	public items : any[];
 
 	@Input('selected-item')

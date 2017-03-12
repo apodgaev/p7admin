@@ -88,13 +88,20 @@ router.post('/:id/planet', function(req, res) {
 	console.log("update star with new planet request", req.params.id);
 	var planetData = req.body;
 	console.log("planetData", planetData);
-	var planet = new Planet(planetData);
-	var star = req.star;
-	star.orbits.push(planet);
-	star.save(function(err, star) {
-		console.log("saving result:", star);
-		handleResult(res, err, star);
+	var _planet = new Planet(planetData);
+	_planet.save(function(err, planet) {
+		if(err) handleResult(res, err, null);
+		else {
+			console.log("updated planet", planet);
+			var star = req.star;
+			star.orbits.push(planet);
+			star.save(function(err, star) {
+				console.log("saving result:", star);
+				handleResult(res, err, star);
+			});
+		}
 	});
+
 });
 
 module.exports = router;

@@ -18,8 +18,8 @@ export class Entity extends DBEntity implements IEntity {
 			// create new
 			super({
 				_id: "0",
-				name: "New entity name",
-				description: "New entity description"
+				name: "New entity",
+				description: "Entity description"
 			});
 		}
 	}
@@ -27,16 +27,19 @@ export class Entity extends DBEntity implements IEntity {
 		let self = this;
 		let props = [];
 		for(let p in self) {
-			if(self.hasOwnProperty(p) && p != "_id" && p != "name" && p != "description") {
+			if(self.hasOwnProperty(p) && p !== "_id" && p !== "name" && p !== "description") {
 				props.push({name:p,value:self[p]});
 			}
 		}
 		return props;
 	}
+	isNew() : boolean {
+		return this._id === "0";
+	}
 	isEqual(source: Entity) : boolean {
-		if(this._id != source._id) return false;
-		if(this.name != source.name) return false;
-		if(this.description != source.description) return false;
+		if(this._id !== source._id) return false;
+		if(this.name !== source.name) return false;
+		if(this.description !== source.description) return false;
 		return true;
 	}
 }
