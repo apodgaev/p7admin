@@ -2,7 +2,7 @@
 var mongoose = require('mongoose');
 var dberror = require('./dberror');
 
-var options = {discriminatorKey: 'objectType', _id: false};
+var options = {discriminatorKey: 'objectType', _id: true};
 
 var CelestialObjectSchema = new mongoose.Schema({
 	name : { type: String, unique: true, required: true },
@@ -15,7 +15,5 @@ var CelestialObjectSchema = new mongoose.Schema({
 
 CelestialObjectSchema.post('save', dberror);
 CelestialObjectSchema.post('update', dberror);
-CelestialObjectSchema.post('findOneAndUpdate', dberror);
-CelestialObjectSchema.post('insertMany', dberror);
 
 module.exports = mongoose.model('CelestialObject', CelestialObjectSchema);

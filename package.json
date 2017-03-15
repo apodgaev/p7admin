@@ -4,10 +4,10 @@
   "description": "project 7 admin dashboard",
   "main": "index.js",
   "scripts": {
-		"w-client": "cd client && start ng serve",
-		"w-server": "dbstart.bat && start nodemon index.js",
+    "w-client": "cd client && start ng serve",
+    "w-server": "dbstart.bat && start nodemon index.js",
     "w-dev": "npm run w-server && npm run w-client",
-		"postw-dev": "start http://localhost:4200",
+    "postw-dev": "start http://localhost:4200",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -34,6 +34,7 @@
     "express-jwt": "^5.1.0",
     "express-session": "^1.14.2",
     "jsonwebtoken": "^7.2.1",
+    "lodash": "^4.17.4",
     "mongoose": "^4.7.6",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0"

@@ -1,16 +1,19 @@
 'use strict';
 var mongoose = require('mongoose');
 var dberror = require('./dberror');
-var cObject = require('./celestial-object');
+var Schema = mongoose.Schema;
 
-var StarSchema = new mongoose.Schema({
+var StarSchema = new Schema({
 	name      	: { type: String, unique: true, required: true },
 	description : { type: String },
-	orbits			: [cObject.schema]
+	orbits			: [
+		{
+			objectType: String,
+			object: { type: Schema.Types.ObjectId, refPath: 'orbits.objectType' }
+		}
+	]
 });
 StarSchema.post('save', dberror);
 StarSchema.post('update', dberror);
-StarSchema.post('findOneAndUpdate', dberror);
-StarSchema.post('insertMany', dberror);
 
 module.exports = mongoose.model('Star', StarSchema);

@@ -1,15 +1,15 @@
 'use strict';
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 var cObject = require('./celestial-object');
-var star = require('./star');
 
-var options = {_id: false};
+var options = {discriminatorKey: 'objectType', _id: true};
 
 var PlanetSchema = new mongoose.Schema({
-	_planetType: mongoose.Schema.Types.ObjectId,
-	satellites: [cObject.schema]
+	planetType: { type: Schema.Types.ObjectId, ref: 'PlanetType' },
+	satellites: [{ type: Schema.Types.ObjectId, ref: 'CelestialObject' }]
 }, options);
 
-var orbits = star.schema.path("orbits");
+var Planet = cObject.discriminator('Planet', PlanetSchema);
 
-module.exports = orbits.discriminator('Planet', PlanetSchema);
+module.exports = Planet;
