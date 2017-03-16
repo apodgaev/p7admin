@@ -11,17 +11,14 @@ export const CelestialObjectTypes = [
 ];
 
 export class CelestialObject extends Entity {
+	objectType: string;
 	position : {
 		radius : Number,
 		angle : Number
 	};
-	constructor(input?: Object) {
+	constructor(input?: any) {
 		super(input);
-		if(!input) {
-			this.position = {
-				radius : 1,
-				angle : 0
-			}
-		}
+		this.position = (input) ? input.position : {radius : 1, angle : 0};
+		this.objectType = (input) ? input.objectType : undefined;
 	}
 }

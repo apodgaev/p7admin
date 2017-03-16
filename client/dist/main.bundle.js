@@ -1175,12 +1175,8 @@ var CelestialObject = (function (_super) {
     __extends(CelestialObject, _super);
     function CelestialObject(input) {
         _super.call(this, input);
-        if (!input) {
-            this.position = {
-                radius: 1,
-                angle: 0
-            };
-        }
+        this.position = (input) ? input.position : { radius: 1, angle: 0 };
+        this.objectType = (input) ? input.objectType : undefined;
     }
     return CelestialObject;
 }(__WEBPACK_IMPORTED_MODULE_0__entity__["a" /* Entity */]));
@@ -5080,6 +5076,16 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 
 
+var OrbitalObject = (function (_super) {
+    __extends(OrbitalObject, _super);
+    function OrbitalObject(input) {
+        if (input)
+            _super.call(this, input.object);
+        else
+            _super.call(this);
+    }
+    return OrbitalObject;
+}(__WEBPACK_IMPORTED_MODULE_1__celestial_object__["a" /* CelestialObject */]));
 var Star = (function (_super) {
     __extends(Star, _super);
     function Star(input) {
@@ -5090,7 +5096,7 @@ var Star = (function (_super) {
         else {
             if (input.hasOwnProperty("orbits") && input["orbits"].length > 0) {
                 // TODO: make more intelligent builder distinguishing different types
-                this.orbits = input["orbits"].map(function (obj) { return new __WEBPACK_IMPORTED_MODULE_1__celestial_object__["a" /* CelestialObject */](obj); });
+                this.orbits = input["orbits"].map(function (obj) { return new OrbitalObject(obj); });
             }
         }
     }
