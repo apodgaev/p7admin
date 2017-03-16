@@ -46,7 +46,11 @@ router.post('/', function(req, res) {
  */
 router.param('id', function(req, res, next, id) {
 	return Star.findById(id)
-		.populate('orbits.object')
+		.populate({
+	    path: 'orbits.object',
+	    // populate satellites of populated celestial objects too
+	    populate: { path: 'satellites.object' }
+	  })
 		.exec(function (err, star) {
 			if (err) {
 	      handleResult(res, err, star);
