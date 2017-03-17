@@ -1,3 +1,21 @@
-.star-detail {
-	max-width: 20rem;
+@import '../../../../styles';
+.panel {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
+	align-content: stretch;
+	@include media() {
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	.detail {
+		@include fixed-flex-item;
+		width: 100%;
+		@include media() {
+			margin-left: 1rem;
+			width: 20rem;
+		}
+	}
 }

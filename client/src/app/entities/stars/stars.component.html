@@ -1,20 +1,18 @@
 <div class="entities stars page">
-	<div class="left-pane">
-		<select-list
-			[header]="'Stars'"
-			[items]="stars"
-			[selected-item]="selectedStar"
-			(on-select)="select($event)"
-			(on-add)="create()">
-		</select-list>
-	</div>
-	<div class="right-pane">
-		<star-info *ngIf="selectedStar"
-			(on-delete)="delete($event)"
-			(on-cancel)="cancel()"
-			(on-save)="save($event)"
-			(on-add)="addOrbit($event)"
-			[star]="selectedStar">
-		</star-info>
-	</div>
+	<select-list
+		class="panel"
+		[header]="'Stars'"
+		[items]="stars"
+		[selected-item]="selectedStar"
+		(on-select)="select($event)"
+		(on-add)="create()">
+	</select-list>
+	<star-info *ngIf="selectedStar"
+		class="panel"
+		(on-delete)="delete($event)"
+		(on-cancel)="cancel()"
+		(on-save)="save($event)"
+		(on-add)="addOrbit($event)"
+		[star]="selectedStar">
+	</star-info>
 </div>

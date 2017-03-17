@@ -4,6 +4,7 @@
   "description": "project 7 admin dashboard",
   "main": "index.js",
   "scripts": {
+	"build": "cd client && ng build --env=prod --aot",
     "w-client": "cd client && start ng serve",
     "w-server": "dbstart.bat && start nodemon index.js",
     "w-dev": "npm run w-server && npm run w-client",

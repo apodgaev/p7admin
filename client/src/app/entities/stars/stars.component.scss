@@ -1,21 +1,21 @@
 @import '../../../styles';
 .stars{
-	@include flex-container(column);
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
+	align-content: stretch;
 	@include media() {
-		@include flex-container(row);
-		max-width: 40rem;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
 	}
-	.left-pane {
-		@include fixed-flex-item();
-		@include media() {
-			width: 50%;
-		}
-	}
-	.right-pane {
-		@include flex-item;
+	.panel {
+		@include fixed-flex-item;
+		width: 100%;
 		@include media() {
 			margin-left: 1rem;
-			width: 50%;
+			width: 20rem;
 		}
 	}
 }

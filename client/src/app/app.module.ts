@@ -46,8 +46,7 @@ import { CelestialComponent } from './entities/stars/star-info/celestial/celesti
 		CelestialComponent
   ],
 	entryComponents: [
-		RegisterComponent,
-		CelestialComponent
+		RegisterComponent
 	],
   imports: [
 		RouterModule.forRoot(AppRoutes),

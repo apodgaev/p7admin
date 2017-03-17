@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { MdDialog, MdDialogRef, MdSelectChange } from '@angular/material';
+import { Component, OnInit, Input } from '@angular/core';
 import { CelestialObject, CelestialObjectType, CelestialObjectTypes } from '../../../models/celestial-object';
 import { Planet } from '../../../models/planet';
 import { EntitiesService } from '../../../../services/entities.service';
 
 @Component({
-  selector: 'app-celestial',
+  selector: 'celestial-info',
   templateUrl: './celestial.component.html',
   styleUrls: ['./celestial.component.scss']
 })
@@ -19,21 +18,21 @@ export class CelestialComponent implements OnInit {
 	private planetTypes;
 
   constructor(
-		public dialogRef: MdDialogRef<CelestialComponent>,
 		private entities: EntitiesService) { }
+
+	@Input()
+	get celestial() {
+		return this.editModel.clone();
+	}
+	set celestial(input) {
+		console.log("set Celestial", input);
+		this.editModel = input.clone();
+		this.title = this.editModel.name;
+	}
 
   ngOnInit() {
 		this.types = CelestialObjectTypes;
 		console.log(this.types);
-		let input = this.dialogRef.config.data;
-		console.log("input data:", input);
-		if(input) {
-			this.editModel = input;
-		} else {
-			this.isNew = true;
-			this.editModel = new CelestialObject();
-		}
-		this.title = (this.isNew) ? "New Celestial Object" : this.editModel.name;
 		this.entities.getPlanetTypeList()
       .subscribe(list => {
         this.planetTypes = list;
@@ -53,6 +52,6 @@ export class CelestialComponent implements OnInit {
 	}
 
 	save() {
-		this.dialogRef.close(this.editModel);
+		//this.dialogRef.close(this.editModel);
 	}
 }

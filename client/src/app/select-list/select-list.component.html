@@ -1,11 +1,15 @@
-<md-nav-list>
-	<h3 md-subheader *ngIf="header">{{ header }}</h3>
+<md-nav-list dense>
+	<h3 md-subheader *ngIf="header" (click)="minify = !minify">
+		{{ header }}
+	</h3>
 	<a md-list-item
 		*ngFor="let item of items"
+		[class.hidden]="minify"
 		[class.active]="item._id == selectedItem?._id"
 		(click)="select(item)"> {{ item.name }} </a>
 	<a md-list-item
 		class="add-item"
+		[class.hidden]="minify"
 		[class.active]="0 == selectedItem?._id"
 		(click)="add()"><md-icon>add</md-icon> Add</a>
 </md-nav-list>

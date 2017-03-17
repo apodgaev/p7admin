@@ -1,4 +1,49 @@
-<section class="celestial-section">
+<md-card>
+	<md-card-content>
+		<md-select class="full-width"
+			[disabled]="!editModel.isNew()"
+			placeholder="Celestial type"
+			(change)="typeChange()"
+			[(ngModel)]="cType"
+			name="type">
+			<md-option *ngFor="let type of types" [value]="type">
+				{{type}}
+			</md-option>
+		</md-select>
+	</md-card-content>
+</md-card>
+<!--
+
+	<md-card>
+		<md-card-content *ngIf="selectedCelestial">
+			<md-input-container class="full-width">
+				<input mdInput name="name" placeholder="Name" [(ngModel)]="selectedCelestial.name">
+			</md-input-container>
+			<md-input-container class="full-width">
+				<textarea mdInput name="description" placeholder="Description" [(ngModel)]="selectedCelestial.description"></textarea>
+			</md-input-container>
+
+			<div class="row">
+				<md-input-container class="half-width">
+					<input mdInput name="radius" placeholder="Radius" [(ngModel)]="selectedCelestial.position.radius">
+				</md-input-container>
+				<md-input-container class="half-width">
+					<input mdInput name="angle" placeholder="Angle" [(ngModel)]="selectedCelestial.position.angle">
+				</md-input-container>
+			</div>
+			<md-select class="full-width"
+				*ngIf="celestialType == 'Planet'"
+				placeholder="Planet type"
+				[(ngModel)]="selectedCelestial.planetType"
+				name="ptype">
+				<md-option *ngFor="let ptype of planetTypes" [value]="ptype._id">
+					{{ptype.name}}
+				</md-option>
+			</md-select>
+		</md-card-content>
+	</md-card>
+
+
 	<h2 md-dialog-title>
 		<span>{{title}}</span>
 	</h2>
@@ -46,3 +91,4 @@
 		</button>
 	</md-dialog-actions>
 </section>
+-->

@@ -1,4 +1,4 @@
-<md-card class="star-detail" *ngIf="!isEdit">
+<md-card class="detail" *ngIf="!isEdit">
 	<md-card-title>{{star.name}}</md-card-title>
 	<md-card-subtitle>{{star.description}}</md-card-subtitle>
 	<md-card-content>
@@ -20,8 +20,8 @@
 		</button>
 	</md-card-actions>
 </md-card>
-<md-card class="star-detail" *ngIf="isEdit">
-	<md-card-content *ngIf="!selectedCelestial">
+<md-card class="detail" *ngIf="isEdit && !selectedCelestial">
+	<md-card-content>
 		<md-input-container class="full-width">
 			<input mdInput name="name" placeholder="Name" [(ngModel)]="editModel.name">
 		</md-input-container>
@@ -36,41 +36,6 @@
 			(on-add)="createCelestial()">
 		</select-list>
 	</md-card-content>
-	<md-card-content *ngIf="selectedCelestial">
-		<md-input-container class="full-width">
-			<input mdInput name="name" placeholder="Name" [(ngModel)]="selectedCelestial.name">
-		</md-input-container>
-		<md-input-container class="full-width">
-			<textarea mdInput name="description" placeholder="Description" [(ngModel)]="selectedCelestial.description"></textarea>
-		</md-input-container>
-		<md-select class="full-width"
-			[disabled]="!selectedCelestial.isNew()"
-			placeholder="Celestial type"
-			(change)="typeChange()"
-			[(ngModel)]="celestialType"
-			name="type">
-			<md-option *ngFor="let type of types" [value]="type">
-				{{type}}
-			</md-option>
-		</md-select>
-		<div class="row">
-			<md-input-container class="half-width">
-				<input mdInput name="radius" placeholder="Radius" [(ngModel)]="selectedCelestial.position.radius">
-			</md-input-container>
-			<md-input-container class="half-width">
-				<input mdInput name="angle" placeholder="Angle" [(ngModel)]="selectedCelestial.position.angle">
-			</md-input-container>
-		</div>
-		<md-select class="full-width"
-			*ngIf="celestialType == 'Planet'"
-			placeholder="Planet type"
-			[(ngModel)]="selectedCelestial.planetType"
-			name="ptype">
-	    <md-option *ngFor="let ptype of planetTypes" [value]="ptype._id">
-	      {{ptype.name}}
-	    </md-option>
-	  </md-select>
-	</md-card-content>
 	<md-card-actions align="end">
 		<button md-icon-button (click)="save()">
 			<md-icon>save</md-icon>
@@ -80,3 +45,8 @@
 		</button>
 	</md-card-actions>
 </md-card>
+<celestial-info
+	class="detail"
+	[celestial]="selectedCelestial"
+	*ngIf="!!selectedCelestial">
+</celestial-info>

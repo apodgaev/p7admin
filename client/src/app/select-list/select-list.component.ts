@@ -7,6 +7,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class SelectListComponent {
 
+	private minify : boolean;
+
   constructor() { }
 
 	@Input()

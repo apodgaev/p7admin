@@ -20,7 +20,6 @@ export class StarInfoComponent implements OnInit {
 		return this._star;
 	}
 	set star(_star) {
-		console.log("set star", _star);
 		this._star = _star;
 		if(_star.isNew()) this.edit();
 	}
