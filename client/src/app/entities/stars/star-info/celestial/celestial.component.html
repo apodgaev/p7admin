@@ -1,4 +1,5 @@
 <md-card>
+	<md-card-title>{{title}}</md-card-title>
 	<md-card-content>
 		<md-select class="full-width"
 			[disabled]="!editModel.isNew()"
@@ -10,27 +11,48 @@
 				{{type}}
 			</md-option>
 		</md-select>
+		<md-input-container class="full-width">
+			<input mdInput name="name" placeholder="Name" [(ngModel)]="editModel.name">
+		</md-input-container>
+		<md-input-container class="full-width">
+			<textarea mdInput name="description" placeholder="Description" [(ngModel)]="editModel.description"></textarea>
+		</md-input-container>
+		<div class="row">
+			<md-input-container class="half-width">
+				<input mdInput name="radius" placeholder="Radius" [(ngModel)]="editModel.position.radius">
+			</md-input-container>
+			<md-input-container class="half-width">
+				<input mdInput name="angle" placeholder="Angle" [(ngModel)]="editModel.position.angle">
+			</md-input-container>
+		</div>
+		<md-select class="full-width"
+			*ngIf="typeMap[cType] === typeMap.Planet"
+			placeholder="Planet type"
+			[(ngModel)]="editModel.planetType"
+			name="ptype">
+	    <md-option *ngFor="let ptype of planetTypes" [value]="ptype._id">
+	      {{ptype.name}}
+	    </md-option>
+	  </md-select>
+		<!-- TODO: satellites -->
 	</md-card-content>
+	<md-card-actions align="end">
+		<button
+		md-icon-button
+		*ngIf="!!cType"
+		(click)="save()">
+			<md-icon>save</md-icon>
+		</button>
+		<button md-icon-button (click)="cancel()">
+			<md-icon>cancel</md-icon>
+		</button>
+	</md-card-actions>
 </md-card>
 <!--
 
 	<md-card>
 		<md-card-content *ngIf="selectedCelestial">
-			<md-input-container class="full-width">
-				<input mdInput name="name" placeholder="Name" [(ngModel)]="selectedCelestial.name">
-			</md-input-container>
-			<md-input-container class="full-width">
-				<textarea mdInput name="description" placeholder="Description" [(ngModel)]="selectedCelestial.description"></textarea>
-			</md-input-container>
 
-			<div class="row">
-				<md-input-container class="half-width">
-					<input mdInput name="radius" placeholder="Radius" [(ngModel)]="selectedCelestial.position.radius">
-				</md-input-container>
-				<md-input-container class="half-width">
-					<input mdInput name="angle" placeholder="Angle" [(ngModel)]="selectedCelestial.position.angle">
-				</md-input-container>
-			</div>
 			<md-select class="full-width"
 				*ngIf="celestialType == 'Planet'"
 				placeholder="Planet type"
@@ -72,23 +94,8 @@
 				<input mdInput name="angle" placeholder="Angle" [(ngModel)]="editModel.position.angle">
 			</md-input-container>
 		</div>
-		<md-select class="full-width"
-			*ngIf="cType == 'Planet'"
-			placeholder="Planet type"
-			[(ngModel)]="editModel.planetType"
-			name="ptype">
-	    <md-option *ngFor="let ptype of planetTypes" [value]="ptype._id">
-	      {{ptype.name}}
-	    </md-option>
-	  </md-select>
 	</md-dialog-content>
 	<md-dialog-actions align="end">
-		<button md-icon-button color="primary" (click)="save()">
-			<md-icon>save</md-icon>
-		</button>
-		<button md-icon-button md-dialog-close>
-			<md-icon>cancel</md-icon>
-		</button>
 	</md-dialog-actions>
 </section>
 -->

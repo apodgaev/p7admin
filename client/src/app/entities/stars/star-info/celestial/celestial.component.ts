@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CelestialObject, CelestialObjectType, CelestialObjectTypes } from '../../../models/celestial-object';
 import { Planet } from '../../../models/planet';
 import { EntitiesService } from '../../../../services/entities.service';
@@ -13,6 +13,7 @@ export class CelestialComponent implements OnInit {
 	private editModel : CelestialObject;
 	private isNew : boolean;
 	private types;
+	private typeMap;
 	private cType;
 	private title : string;
 	private planetTypes;
@@ -28,11 +29,12 @@ export class CelestialComponent implements OnInit {
 		console.log("set Celestial", input);
 		this.editModel = input.clone();
 		this.title = this.editModel.name;
+		this.cType = this.editModel.objectType;
+		this.typeMap = CelestialObjectType;
 	}
 
   ngOnInit() {
 		this.types = CelestialObjectTypes;
-		console.log(this.types);
 		this.entities.getPlanetTypeList()
       .subscribe(list => {
         this.planetTypes = list;
@@ -51,7 +53,13 @@ export class CelestialComponent implements OnInit {
 		console.log("model:", this.editModel);
 	}
 
+	@Output('on-save') onSave = new EventEmitter();
 	save() {
-		//this.dialogRef.close(this.editModel);
+		if(!!this.onSave) this.onSave.emit(this.editModel);
+	}
+
+	@Output('on-cancel') onCancel = new EventEmitter();
+	cancel() {
+		if(!!this.onCancel) this.onCancel.emit();
 	}
 }

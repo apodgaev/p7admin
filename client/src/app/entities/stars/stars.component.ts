@@ -13,19 +13,23 @@ import { Star } from '../models/star';
 export class StarsComponent implements OnInit {
   private stars: Star[];
   private selectedStar;
+	private isEdit;
 
   constructor(
     private entities: EntitiesService,
     private auth: AuthService,
     private router: Router) {
+			this.isEdit = false;
   }
 
   loadStars() {
     this.entities.getStars()
       .subscribe(res => {
         this.stars = res;
+				this.isEdit = false;
       }, err => {
         console.error("Error:", err);
+				this.isEdit = false;
       });
   }
 
@@ -43,6 +47,7 @@ export class StarsComponent implements OnInit {
 
   create() {
     this.selectedStar = new Star();
+		this.isEdit = true;
   }
 
   save(star) {
@@ -71,7 +76,11 @@ export class StarsComponent implements OnInit {
 	}
 
   cancel() {
-    this.selectedStar = undefined;
+		if(this.selectedStar.isNew()) {
+			this.selectedStar = undefined;
+		}
+		this.isEdit = false;
+		console.log("cancel", this.isEdit);
   }
 
   delete(star) {

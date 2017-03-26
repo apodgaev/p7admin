@@ -1,8 +1,27 @@
-.add-item {
-	background-color: #aafaaa;
+:not(.disabled) {
+	h3 {
+		cursor: pointer;
+	}
+	.add-item {
+		background-color: #aafaaa;
+	}
+	.active {
+		background-color: #aaa;
+	}
+	a.disabled {
+		color: #aaa;
+		background-color: #eee;
+		cursor: not-allowed;
+	}
 }
-.active {
-	background-color: #aaa;
+.switch {
+	width: 2rem;
+	&.minus::before {
+		content: "\2013";
+	}
+	&.plus::before {
+		content: "\002B";
+	}
 }
 .hidden {
 	display: none !important;

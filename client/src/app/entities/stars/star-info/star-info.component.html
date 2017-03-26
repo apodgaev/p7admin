@@ -48,5 +48,7 @@
 <celestial-info
 	class="detail"
 	[celestial]="selectedCelestial"
+	(on-cancel)="cancelCelestial()"
+	(on-save)="save($event)"
 	*ngIf="!!selectedCelestial">
 </celestial-info>

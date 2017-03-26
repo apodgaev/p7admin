@@ -1,15 +1,16 @@
-<md-nav-list dense>
-	<h3 md-subheader *ngIf="header" (click)="minify = !minify">
-		{{ header }}
+<md-nav-list dense [class.disabled]="disabled">
+	<h3 md-subheader *ngIf="header" (click)="minify = (disabled) ? minify : !minify">
+		<span class="switch" [ngClass]="{'plus': minify, 'minus': !minify}"></span>&nbsp;{{ header }}
 	</h3>
 	<a md-list-item
 		*ngFor="let item of items"
+		[class.disabled]="disabled || item.disabled"
 		[class.hidden]="minify"
-		[class.active]="item._id == selectedItem?._id"
+		[class.active]="selectedItem && item._id == selectedItem._id"
 		(click)="select(item)"> {{ item.name }} </a>
 	<a md-list-item
 		class="add-item"
 		[class.hidden]="minify"
-		[class.active]="0 == selectedItem?._id"
+		[class.active]="selectedItem && selectedItem.isNew()"
 		(click)="add()"><md-icon>add</md-icon> Add</a>
 </md-nav-list>

@@ -1,4 +1,4 @@
-import { CelestialObject } from './celestial-object';
+import { CelestialObject, CelestialObjectType } from './celestial-object';
 import { PlanetType } from './planet-type';
 
 export class Planet extends CelestialObject {
@@ -9,6 +9,9 @@ export class Planet extends CelestialObject {
 		if(!input) {
 			this.planetType = null;
 			this.satellites = [];
+		}
+		if(!this.objectType) {
+			this.objectType = CelestialObjectType[CelestialObjectType.Planet];
 		}
 	}
 }

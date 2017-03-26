@@ -37,10 +37,11 @@ export class StarInfoComponent implements OnInit {
 		this.types = CelestialObjectTypes;
   }
 
+	@Output('on-edit') onEdit = new EventEmitter();
 	edit() {
 		this.editModel = this.star.clone();
 		this.isEdit = true;
-		console.log("editModel:", this.editModel);
+		if(!!this.onEdit) this.onEdit.emit();
 	}
 
 	@Output('on-cancel') onCancel = new EventEmitter();
@@ -49,22 +50,31 @@ export class StarInfoComponent implements OnInit {
 			this.selectedCelestial = undefined;
 		} else {
 			this.isEdit = false;
-			if(this.editModel.isEqual(this.star) && this.star.isNew()) {
-				if(!!this.onCancel) this.onCancel.emit();
-			}
+			this.editModel = undefined;
+			console.log("cancel");
+			if(!!this.onCancel) this.onCancel.emit();
 		}
 	}
 
 	@Output('on-save') onSave = new EventEmitter();
-	save() {
+	save(editedModel) {
 		if(this.selectedCelestial) {
-			console.log(this.selectedCelestial);
-			if(!this.selectedCelestial.isEqual(this._selectedCelestial)) {
-				// TODO: add support for update
+			console.log(this.selectedCelestial, editedModel);
+			if(editedModel && !editedModel.isEqual(this.selectedCelestial)) {
+				console.log("save celestial found");
 				let star = this.editModel.clone();
-				star.orbits.push(this.selectedCelestial);
+				if(editedModel.isNew()) {
+					star.orbits.push(editedModel);
+					console.log("saving star with new celestial");
+					if(!!this.onAdd) this.onAdd.emit(editedModel);
+				} else {
+					// TODO: add support for update
+
+				}
 				this.editModel = star;
-				if(!!this.onAdd) this.onAdd.emit(this.selectedCelestial);
+				this.selectedCelestial = undefined;
+			} else {
+				console.warn("CelestialObject was not changed!");
 			}
 		} else {
 			if(!this.editModel.isEqual(this.star)) {
@@ -88,33 +98,16 @@ export class StarInfoComponent implements OnInit {
 	selectCelestial(celestial) {
 		console.log("celestial", celestial)
 		this.selectedCelestial = celestial.clone();
-		this._selectedCelestial = celestial;
+	}
+
+	cancelCelestial() {
+		console.log("cancelCelestial");
+		this.selectedCelestial = undefined;
 	}
 
 	createCelestial() {
 		this.selectedCelestial = new CelestialObject();
 	}
-
-	private buildCelestial(type, celestial) {
-		console.log("buildCelestial", type);
-		let celestialType = +CelestialObjectType[type];
-		switch(celestialType) {
-			case CelestialObjectType.Planet:
-				if(!this.planetTypes)
-				this.entities.getPlanetTypeList()
-					.subscribe(list => {
-						this.planetTypes = list;
-					});
-				return new Planet(celestial);
-		}
-	}
-	typeChange() {
-		this.selectedCelestial = this.buildCelestial(this.celestialType, this.selectedCelestial);
-		this._selectedCelestial = this.buildCelestial(this.celestialType, this._selectedCelestial);
-		console.log("model:", this.selectedCelestial);
-	}
-
-
 
 	@Output('on-add') onAdd = new EventEmitter();
 	addOrbit(event) {

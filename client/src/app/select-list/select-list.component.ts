@@ -15,6 +15,9 @@ export class SelectListComponent {
 	public header : string;
 
 	@Input()
+	public disabled : boolean;
+
+	@Input()
 	public items : any[];
 
 	@Input('selected-item')
@@ -22,12 +25,12 @@ export class SelectListComponent {
 
 	@Output('on-select') onSelect = new EventEmitter();
 	select(item) {
-		if(!!this.onSelect) this.onSelect.emit(item);
+		if(!this.disabled && !item.disabled && !!this.onSelect) this.onSelect.emit(item);
 	}
 
 	@Output('on-add') onAdd = new EventEmitter();
 	add() {
-		if(!!this.onAdd) this.onAdd.emit();
+		if(!this.disabled && !!this.onAdd) this.onAdd.emit();
 	}
 
 }
